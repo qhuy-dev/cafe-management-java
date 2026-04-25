@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -27,15 +28,16 @@ public class LoginForm extends JFrame implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //Toolkit lay chi so kich thuoc hien tai cua man hinh
-	int width = (int) (screenSize.getWidth()*0.8);
-	int height = (int) (screenSize.getHeight()*0.85);
+	Dimension kichThuocMan = Toolkit.getDefaultToolkit().getScreenSize(); //Toolkit lay chi so kich thuoc hien tai cua man hinh
+	int width = (int) (kichThuocMan.getWidth()*0.8);
+	int height = (int) (kichThuocMan.getHeight()*0.85);
 	JTextField txtTaiKhoan,txtMatKhau;
 	JPanel pnlDangNhap;
 	JLabel lblDangNhap;
 	JLayeredPane phanLop;
 	JButton btnDangNhap;
 	Color mauChu;
+	Color mautxt ;
 	Dimension khoangCach = new Dimension(100, 0);
 	public LoginForm() {
 
@@ -44,6 +46,7 @@ public class LoginForm extends JFrame implements ActionListener{
 	    JLabel background = new JLabel(new ImageIcon(anhSua));
 	    
 	    mauChu = Color.decode("#891910");
+	    mautxt = Color.decode("#C11B17");
 	    
 	    lblDangNhap = new JLabel("Đăng Nhập");
 	    lblDangNhap.setForeground(mauChu);
@@ -55,16 +58,17 @@ public class LoginForm extends JFrame implements ActionListener{
 	    txtMatKhau.setOpaque(false);
 	    txtTaiKhoan.setBorder(BorderFactory.createLineBorder(mauChu));
 	    txtTaiKhoan.setFont(new Font("Tohoma", Font.BOLD, 18));
-	    txtTaiKhoan.setForeground(mauChu);
+	    txtTaiKhoan.setForeground(mautxt);
 	    txtMatKhau.setBorder(BorderFactory.createLineBorder(mauChu));
 	    txtMatKhau.setFont(new Font("Tohoma", Font.BOLD, 18));
-	    txtMatKhau.setForeground(mauChu);
+	    txtMatKhau.setForeground(mautxt);
 	    
 	    btnDangNhap = new JButton("Đăng Nhập");
 	    btnDangNhap.setBackground(mauChu);
 	    btnDangNhap.setForeground(Color.white);
 	    btnDangNhap.setFont(new Font("Tohoma", Font.BOLD, 18));
 	    btnDangNhap.setPreferredSize(new Dimension(150, 60));
+	    btnDangNhap.addActionListener(this);
 	    
 	    JPanel pnlTieuDe = new JPanel();
 	    pnlTieuDe.add(lblDangNhap);
@@ -72,10 +76,9 @@ public class LoginForm extends JFrame implements ActionListener{
 	    
 	    pnlDangNhap = new JPanel();
 	    pnlDangNhap.setLayout(new BoxLayout(pnlDangNhap, BoxLayout.Y_AXIS));
-	    pnlDangNhap.setOpaque(false); // Dòng quan trọng nhất: tắt độ mờ đục
+	    pnlDangNhap.setOpaque(false); //tắt độ mờ đục
 	    int widthDangNhap = 550;
 	    int heightDangNhap = 400;
-//	    pnlDangNhap.setPreferredSize(new Dimension(100, 100));
 	    
 	    
 	    JPanel pnlTaiKhoan = new JPanel();
@@ -91,14 +94,17 @@ public class LoginForm extends JFrame implements ActionListener{
 	    lblMK.setForeground(mauChu);
 	    lblMK.setPreferredSize(khoangCach);
 	    lblMK.setFont(new Font("Tohoma", Font.BOLD, 18));
+	    
 	    pnlTaiKhoan.add(lblTK);
 	    pnlTaiKhoan.add(txtTaiKhoan);
-//	    pnlTaiKhoan.setMaximumSize(new Dimension(widthDangNhap, 200));
+	    pnlTaiKhoan.add(Box.createHorizontalStrut(80));
 	    pnlTaiKhoan.setOpaque(false);
+	    
 	    pnlMatKhau.add(lblMK);
 	    pnlMatKhau.add(txtMatKhau);
-//	    pnlMatKhau.setMaximumSize(new Dimension(widthDangNhap, 200));
+	    pnlMatKhau.add(Box.createHorizontalStrut(80));
 	    pnlMatKhau.setOpaque(false);
+	    
 	    pnlNut.add(btnDangNhap);
 	    pnlNut.setOpaque(false);
 	    
@@ -121,6 +127,7 @@ public class LoginForm extends JFrame implements ActionListener{
 	    
 //	    add(background);
 //	    add(pnlDangNhap);
+	    setTitle("Login Account");
 	    setContentPane(phanLop);
 	    setSize(width, height);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -131,6 +138,21 @@ public class LoginForm extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o==btnDangNhap) {
+			String taiKhoan ="admin";
+			String matKhau = "123";
+			if(taiKhoan.equals(txtTaiKhoan.getText()) && matKhau.equals(txtMatKhau.getText())) {
+				JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+				new UIQuanLyBanHang().setVisible(true);
+				dispose();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Sai tài khoản mật khẩu", "ERROR", JOptionPane.ERROR_MESSAGE);
+				txtTaiKhoan.selectAll();
+				txtTaiKhoan.requestFocus();
+			}
+		}
 		
 		
 	}

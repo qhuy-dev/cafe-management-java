@@ -1,5 +1,7 @@
 package app;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,8 +15,22 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	Dimension kichThuocMan = Toolkit.getDefaultToolkit().getScreenSize();
+	int width = (int) (kichThuocMan.getWidth()*0.8);
+	int height = (int) (kichThuocMan.getHeight()*0.85);
 	
-
+	public UIQuanLyBanHang() {
+		// TODO Auto-generated constructor stub
+		
+		setSize(width, height);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	
+	}
+	
+	public static void main(String[] args) {
+		new UIQuanLyBanHang().setVisible(true);
+	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
