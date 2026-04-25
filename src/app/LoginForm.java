@@ -127,7 +127,7 @@ public class LoginForm extends JFrame implements ActionListener{
 	    
 //	    add(background);
 //	    add(pnlDangNhap);
-	    setTitle("Login Account");
+	    setTitle("Login Account ^_^ __");
 	    setContentPane(phanLop);
 	    setSize(width, height);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
