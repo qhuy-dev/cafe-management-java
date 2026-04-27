@@ -60,7 +60,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    pnlWest.setPreferredSize(new Dimension(200, height));
 	    
 	    JPanel pnlLogo = new JPanel();
-	    pnlLogo.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
+	    pnlLogo.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 7));
 	    pnlLogo.setPreferredSize(new Dimension(200, height));
 	    pnlLogo.setOpaque(false);
 	    
