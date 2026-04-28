@@ -39,6 +39,23 @@ public class LoginForm extends JFrame implements ActionListener{
 	Color mauChu;
 	Color mautxt ;
 	Dimension khoangCach = new Dimension(100, 0);
+	
+	public JTextField getTxtTaiKhoan() {
+		return txtTaiKhoan;
+	}
+
+	public void setTxtTaiKhoan(JTextField txtTaiKhoan) {
+		this.txtTaiKhoan = txtTaiKhoan;
+	}
+
+	public JTextField getTxtMatKhau() {
+		return txtMatKhau;
+	}
+
+	public void setTxtMatKhau(JTextField txtMatKhau) {
+		this.txtMatKhau = txtMatKhau;
+	}
+
 	public LoginForm() {
 
 	    ImageIcon anh = new ImageIcon("imgs/anhDangNhap.png");
@@ -144,7 +161,7 @@ public class LoginForm extends JFrame implements ActionListener{
 			String matKhau = "123";
 			if(taiKhoan.equals(txtTaiKhoan.getText()) && matKhau.equals(txtMatKhau.getText())) {
 				JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-				new UIQuanLyBanHang().setVisible(true);
+				new UIQuanLyBanHang(txtTaiKhoan.getText(),txtMatKhau.getText());
 				dispose();
 			}
 			else {

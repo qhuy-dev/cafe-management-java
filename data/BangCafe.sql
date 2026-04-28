@@ -66,82 +66,73 @@ CREATE TABLE ChiTietHoaDon
 	FOREIGN KEY (maSanPham) REFERENCES SanPham(maSanPham)
 )
 
--- 1. Chèn dữ liệu bảng SanPham (Đồ uống & Thức ăn)
+-- 1. Chèn dữ liệu bảng SanPham (Cập nhật lên 15 sản phẩm)
 INSERT INTO SanPham (maSanPham, tenSanPham, giaTien, trangThai) VALUES
-('SP001', N'Cà phê đen', 25000, 1),
-('SP002', N'Cà phê sữa', 29000, 1),
-('SP003', N'Bạc xỉu', 32000, 1),
+('SP001', N'Cà phê đen đá', 25000, 1),
+('SP002', N'Cà phê sữa đá', 29000, 1),
+('SP003', N'Bạc xỉu Sài Gòn', 32000, 1),
 ('SP004', N'Trà đào cam sả', 45000, 1),
-('SP005', N'Trà sữa truyền thống', 35000, 1),
-('SP006', N'Ép cam tươi', 40000, 1),
-('SP007', N'Sinh tố bơ', 45000, 1),
+('SP005', N'Trà sữa trân châu', 35000, 1),
+('SP006', N'Nước ép cam tươi', 40000, 1),
+('SP007', N'Sinh tố bơ sáp', 45000, 1),
 ('SP008', N'Bánh mì kẹp thịt', 25000, 1),
-('SP009', N'Croissant', 30000, 1),
-('SP010', N'Tiramisu', 35000, 0); -- Hết hàng
+('SP009', N'Bánh Croissant bơ', 30000, 1),
+('SP010', N'Bánh Tiramisu', 35000, 1),
+('SP011', N'Trà vải hạt sen', 38000, 1),
+('SP012', N'Matcha đá xay', 48000, 1),
+('SP013', N'Cacao nóng', 30000, 1),
+('SP014', N'Soda Ý việt quất', 35000, 1),
+('SP015', N'Bánh Flan cốt dừa', 20000, 1);
 
--- 2. Chèn dữ liệu bảng KhachHang
+-- 2. Chèn dữ liệu bảng KhachHang (Họ tên đầy đủ)
 INSERT INTO KhachHang (maKhachHang, hoTen, soDienThoai) VALUES
-('KH001', N'Phạm Minh Hào', '0901234567'), -- Thông tin khớp với tên bạn
-('KH002', N'Lê Quang Huy', '0912345678'), -- Bạn qhuy-dev của bạn
-('KH003', N'Nguyễn Văn A', '0988888888'),
-('KH004', N'Trần Thị B', '0977777777'),
-('KH005', N'Lê Văn C', '0966666666'),
-('KH006', N'Hoàng Thị D', '0955555555'),
-('KH007', N'Ngô Văn E', '0944444444'),
-('KH008', N'Lý Thị F', '0933333333'),
-('KH009', N'Vũ Văn G', '0922222222'),
-('KH010', N'Đỗ Thị H', '0911111111');
+('KH001', N'Phạm Minh Hào', '0901234567'),
+('KH002', N'Lê Quang Huy', '0912345678'),
+('KH003', N'Nguyễn Hoàng Nam', '0988888888'),
+('KH004', N'Trần Thị Tuyết Mai', '0977777777'),
+('KH005', N'Lê Văn Quốc Anh', '0966666666'),
+('KH006', N'Hoàng Thị Ngọc Diệp', '0955555555'),
+('KH007', N'Ngô Văn Minh Tú', '0944444444'),
+('KH008', N'Lý Thị Thanh Thảo', '0933333333'),
+('KH009', N'Vũ Văn Tiến Dũng', '0922222222'),
+('KH010', N'Đỗ Thị Thúy Hằng', '0911111111');
 
--- 3. Chèn dữ liệu bảng NhanVien (Password mặc định là 123)
+-- 3. Chèn dữ liệu bảng NhanVien (Role Tiếng Việt: Quản lý/Nhân viên)
 INSERT INTO NhanVien (maNhanVien, hoTen, username, password, role, soDienThoai, diaChi, email, tienLuong, ngaySinh, gioiTinh) VALUES
-('NV001', N'Quản Lý Toàn', 'admin', '123', 'admin', '0900000001', N'Gò Vấp', 'toan@gmail.com', 15000000, '1990-01-01', N'Nam'),
-('NV002', N'Nhân Viên Chi', 'chi123', '123', 'staff', '0900000002', N'Củ Chi', 'chi@gmail.com', 7000000, '2000-05-15', N'Nữ'),
-('NV003', N'Nhân Viên Nam', 'nam456', '123', 'staff', '0900000003', N'Quận 12', 'nam@gmail.com', 7000000, '1998-10-20', N'Nam'),
-('NV004', N'Nhân Viên Lan', 'lan789', '123', 'staff', '0900000004', N'Hóc Môn', 'lan@gmail.com', 7000000, '2002-02-12', N'Nữ'),
-('NV005', N'Nhân Viên Hùng', 'hung12', '123', 'staff', '0900000005', N'Gò Vấp', 'hung@gmail.com', 7200000, '1995-12-30', N'Nam'),
-('NV006', N'Nhân Viên Mai', 'mai34', '123', 'staff', '0900000006', N'Bình Thạnh', 'mai@gmail.com', 7200000, '2001-07-18', N'Nữ'),
-('NV007', N'Nhân Viên Sơn', 'son56', '123', 'staff', '0900000007', N'Phú Nhuận', 'son@gmail.com', 6800000, '1999-04-05', N'Nam'),
-('NV008', N'Nhân Viên Hoa', 'hoa78', '123', 'staff', '0900000008', N'Quận 1', 'hoa@gmail.com', 6800000, '2003-09-25', N'Nữ'),
-('NV009', N'Nhân Viên Dũng', 'dung90', '123', 'staff', '0900000009', N'Tân Bình', 'dung@gmail.com', 7500000, '1997-11-11', N'Nam'),
-('NV010', N'Nhân Viên Tuyết', 'tuyet01', '123', 'staff', '0900000010', N'Gò Vấp', 'tuyet@gmail.com', 7000000, '2000-01-01', N'Nữ');
+('NV001', N'Nguyễn Tất Thành Toàn', 'admin', '123', N'Quản lý', '0900000001', N'Gò Vấp, HCM', 'toan@gmail.com', 15000000, '1990-01-01', N'Nam'),
+('NV002', N'Trần Thị Linh Chi', 'chi123', '123', N'Nhân viên', '0900000002', N'Củ Chi, HCM', 'chi@gmail.com', 7000000, '2000-05-15', N'Nữ'),
+('NV003', N'Phan Hoàng Nam', 'nam456', '123', N'Nhân viên', '0900000003', N'Quận 12, HCM', 'nam@gmail.com', 7000000, '1998-10-20', N'Nam'),
+('NV004', N'Đặng Thị Ngọc Lan', 'lan789', '123', N'Nhân viên', '0900000004', N'Hóc Môn, HCM', 'lan@gmail.com', 7000000, '2002-02-12', N'Nữ'),
+('NV005', N'Bùi Xuân Hùng', 'hung12', '123', N'Nhân viên', '0900000005', N'Gò Vấp, HCM', 'hung@gmail.com', 7200000, '1995-12-30', N'Nam');
 
--- 4. Chèn dữ liệu bảng TableCafe (0: Trống, 1: Có khách)
+-- 4. Chèn dữ liệu bảng TableCafe
 INSERT INTO TableCafe (maBan, tenBan, trangThai) VALUES
-('B01', N'Bàn 1 (Cửa sổ)', 1),
-('B02', N'Bàn 2', 0),
-('B03', N'Bàn 3', 0),
-('B04', N'Bàn 4 (Góc)', 1),
-('B05', N'Bàn 5', 0),
-('B06', N'Bàn 6 (Sân thượng)', 0),
-('B07', N'Bàn 7', 1),
-('B08', N'Bàn 8', 0),
-('B09', N'Bàn VIP 1', 0),
-('B10', N'Bàn VIP 2', 0);
+('B01', N'Bàn 1 (Cửa sổ)', 0), ('B02', N'Bàn 2', 0), ('B03', N'Bàn 3', 0), ('B04', N'Bàn 4 (Góc)', 0), ('B05', N'Bàn 5', 0),
+('B06', N'Bàn 6 (Lầu)', 0), ('B07', N'Bàn 7', 0), ('B08', N'Bàn 8', 0), ('B09', N'Bàn VIP 1', 0), ('B10', N'Bàn VIP 2', 0);
 
--- 5. Chèn dữ liệu bảng HoaDon
+-- 5. Chèn dữ liệu bảng HoaDon (Cập nhật lên 20 hóa đơn)
 INSERT INTO HoaDon (maHoaDon, ngayTao, maKhachHang, maNhanVien, maBan) VALUES
-('HD001', '2026-04-27 08:30:00', 'KH001', 'NV002', 'B01'),
-('HD002', '2026-04-27 09:15:00', 'KH002', 'NV003', 'B04'),
-('HD003', '2026-04-27 10:00:00', 'KH003', 'NV002', 'B07'),
-('HD004', '2026-04-27 11:30:00', 'KH004', 'NV004', 'B01'),
-('HD005', '2026-04-27 13:00:00', 'KH005', 'NV005', 'B02'),
-('HD006', '2026-04-27 14:45:00', 'KH006', 'NV002', 'B03'),
-('HD007', '2026-04-27 16:20:00', 'KH007', 'NV007', 'B05'),
-('HD008', '2026-04-27 18:00:00', 'KH008', 'NV003', 'B06'),
-('HD009', '2026-04-27 19:30:00', 'KH009', 'NV010', 'B08'),
-('HD010', '2026-04-27 20:45:00', 'KH010', 'NV009', 'B09');
+('HD001', '2026-04-28 08:00:00', 'KH001', 'NV002', 'B01'), ('HD002', '2026-04-28 08:15:00', 'KH002', 'NV003', 'B04'),
+('HD003', '2026-04-28 08:30:00', 'KH003', 'NV002', 'B07'), ('HD004', '2026-04-28 09:00:00', 'KH004', 'NV004', 'B01'),
+('HD005', '2026-04-28 09:30:00', 'KH005', 'NV005', 'B02'), ('HD006', '2026-04-28 10:00:00', 'KH006', 'NV002', 'B03'),
+('HD007', '2026-04-28 10:15:00', 'KH007', 'NV003', 'B05'), ('HD008', '2026-04-28 10:45:00', 'KH008', 'NV003', 'B06'),
+('HD009', '2026-04-28 11:00:00', 'KH009', 'NV004', 'B08'), ('HD010', '2026-04-28 11:30:00', 'KH010', 'NV005', 'B09'),
+('HD011', '2026-04-28 12:00:00', 'KH001', 'NV002', 'B10'), ('HD012', '2026-04-28 13:00:00', 'KH002', 'NV003', 'B02'),
+('HD013', '2026-04-28 14:00:00', 'KH003', 'NV004', 'B04'), ('HD014', '2026-04-28 15:00:00', 'KH004', 'NV005', 'B05'),
+('HD015', '2026-04-28 16:00:00', 'KH005', 'NV002', 'B01'), ('HD016', '2026-04-28 17:00:00', 'KH006', 'NV003', 'B03'),
+('HD017', '2026-04-28 18:00:00', 'KH007', 'NV004', 'B07'), ('HD018', '2026-04-28 19:00:00', 'KH008', 'NV005', 'B08'),
+('HD019', '2026-04-28 20:00:00', 'KH009', 'NV002', 'B09'), ('HD020', '2026-04-28 21:00:00', 'KH010', 'NV003', 'B06');
 
--- 6. Chèn dữ liệu bảng ChiTietHoaDon (Mối quan hệ 1-Nhiều)
+-- 6. Chèn dữ liệu bảng ChiTietHoaDon
 INSERT INTO ChiTietHoaDon (maHoaDon, maSanPham, soLuong, giaTien) VALUES
-('HD001', 'SP001', 2, 25000), -- HD001 mua 2 Cafe đen
-('HD001', 'SP008', 1, 25000), -- HD001 mua thêm 1 Bánh mì
-('HD002', 'SP004', 1, 45000),
-('HD002', 'SP009', 2, 30000),
-('HD003', 'SP002', 1, 29000),
-('HD004', 'SP003', 3, 32000),
-('HD005', 'SP006', 1, 40000),
-('HD006', 'SP005', 2, 35000),
-('HD007', 'SP007', 1, 45000),
-('HD008', 'SP001', 1, 25000),
-('HD009', 'SP002', 2, 29000),
-('HD010', 'SP004', 1, 45000);
+('HD001', 'SP001', 2, 25000), ('HD001', 'SP008', 1, 25000),
+('HD002', 'SP004', 1, 45000), ('HD003', 'SP002', 1, 29000),
+('HD004', 'SP003', 3, 32000), ('HD005', 'SP006', 1, 40000),
+('HD006', 'SP005', 2, 35000), ('HD007', 'SP011', 1, 38000),
+('HD008', 'SP012', 1, 48000), ('HD009', 'SP002', 2, 29000),
+('HD010', 'SP015', 2, 20000), ('HD011', 'SP014', 1, 35000),
+('HD012', 'SP013', 1, 30000), ('HD013', 'SP007', 1, 45000),
+('HD014', 'SP001', 2, 25000), ('HD015', 'SP010', 1, 35000),
+('HD016', 'SP004', 2, 45000), ('HD017', 'SP005', 1, 35000),
+('HD018', 'SP009', 3, 30000), ('HD019', 'SP003', 1, 32000),
+('HD020', 'SP002', 1, 29000);
