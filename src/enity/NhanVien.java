@@ -14,6 +14,26 @@ public class NhanVien {
     private double tienLuong;
     private LocalDate ngaySinh;
     private String gioiTinh;
+    
+	public NhanVien(String maNhanVien, String hoTen, String username, String password, String role, String soDienThoai,
+			String diaChi, String email, double tienLuong, LocalDate ngaySinh, String gioiTinh) {
+		super();
+		this.maNhanVien = maNhanVien;
+		this.hoTen = hoTen;
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+		this.email = email;
+		this.tienLuong = tienLuong;
+		this.ngaySinh = ngaySinh;
+		this.gioiTinh = gioiTinh;
+	}
+	public NhanVien() {
+		// TODO Auto-generated constructor stub
+		this("", "", "", "", "", "", "", "", 0, null, "");
+	}
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}

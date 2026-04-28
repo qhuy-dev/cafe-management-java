@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -13,18 +12,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+
+import dao.NhanVien_DAO;
+import enity.NhanVien;
 
 public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListener{
 
@@ -42,8 +39,21 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	Image imgLogo;
 	JLabel lblLogo,lblTieuDe;
 	JButton btnTrangChu,btnBanHang,btnSanPham,btnKhachHang,btnNhanVien,btnThongKe;
+	JTextField txtUsername,txtPassword;
+	static NhanVien nhanVien;
+	NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
 //	JButton btnTrangChu,btnBanHang,btnSanPham;
 //	Color w,n;
+	public UIQuanLyBanHang(String txtUsername, String txtPassword) {
+		nhanVien = nhanVien_DAO.TimTheoUser("admin");
+//		System.out.println(nhanVien.getHoTen());
+		new UIQuanLyBanHang().setVisible(true);
+//		if(nhanVien != null) {
+//	        System.out.println("Đã thấy nhân viên: " + nhanVien.getHoTen());
+//	    } else {
+//	        System.out.println("Không tìm thấy nhân viên với user: " + txtUsername);
+//	    }
+	}
 	public UIQuanLyBanHang() {
 		// TODO Auto-generated constructor stub
 		setLayout(new BorderLayout());
@@ -64,6 +74,9 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    pnlLogo.setPreferredSize(new Dimension(200, height));
 	    pnlLogo.setOpaque(false);
 	    
+	    JPanel pnlTen = new JPanel();
+	    pnlTen.setLayout(new BorderLayout());
+	    
 	    logo = new ImageIcon("imgs/logo2.png");
 	    imgLogo = logo.getImage().getScaledInstance(160, 145, Image.SCALE_SMOOTH);
 	    lblLogo = new JLabel(new ImageIcon(imgLogo));
@@ -76,6 +89,28 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    lblTieuDe.setForeground(Color.white);
 	    lblTieuDe.setHorizontalTextPosition(JLabel.CENTER);
 	    lblTieuDe.setVerticalTextPosition(JLabel.CENTER);
+	    
+	    ImageIcon logoTen = new ImageIcon("imgs/sun.png");
+	    Image imgTen = logoTen.getImage().getScaledInstance(180, 120, Image.SCALE_SMOOTH);
+	    String tenNV = nhanVien != null ? nhanVien.getHoTen() : "";
+	    JLabel lblTen;
+	    lblTen = new JLabel(tenNV,new ImageIcon(imgTen),JLabel.CENTER);
+//	    System.out.println(nhanVien.getHoTen());
+	    lblTen.setFont(new Font("Tahoma", Font.BOLD, 12));
+//	    lblTen.setForeground(Color.white);
+	    lblTen.setHorizontalTextPosition(JLabel.CENTER);
+	    lblTen.setVerticalTextPosition(JLabel.CENTER);
+	    
+	    ImageIcon logoRole = new ImageIcon("imgs/star.png");
+	    Image imgRole = logoRole.getImage().getScaledInstance(80, 40, Image.SCALE_SMOOTH);
+	    String chucVu = nhanVien != null ? nhanVien.getRole() : "";
+	    JLabel lblChucVu;
+	    lblChucVu = new JLabel(chucVu,new ImageIcon(imgRole),JLabel.CENTER);
+//	    System.out.println(nhanVien.getHoTen());
+	    lblChucVu.setFont(new Font("Tahoma", Font.BOLD, 10));
+//	    lblTen.setForeground(Color.white);
+	    lblChucVu.setHorizontalTextPosition(JLabel.CENTER);
+	    lblChucVu.setVerticalTextPosition(JLabel.CENTER);
 	    
 	    ImageIcon iconTC = new ImageIcon("imgs/home.png");
 	    Image imgTC = iconTC.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -153,9 +188,14 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    btnThongKe.addActionListener(this);
 	    pnlWest.add(btnThongKe);
 	    
+	    pnlTen.add(lblTen);
+	    pnlTen.add(lblChucVu, BorderLayout.SOUTH);
+	    pnlTen.setOpaque(false);
 	    
 	    pnlNorth.add(pnlLogo,BorderLayout.WEST);
+	    pnlNorth.add(pnlTen,BorderLayout.EAST);
 	    pnlNorth.add(lblTieuDe);
+	    
 	    
 	    add(pnlNorth, BorderLayout.NORTH);
 
@@ -173,6 +213,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	}
 	public static void main(String[] args) {
 		new UIQuanLyBanHang().setVisible(true);
+//		new UIQuanLyBanHang("admin", "123");
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
