@@ -45,14 +45,8 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 //	JButton btnTrangChu,btnBanHang,btnSanPham;
 //	Color w,n;
 	public UIQuanLyBanHang(String txtUsername, String txtPassword) {
-		nhanVien = nhanVien_DAO.TimTheoUser("admin");
-//		System.out.println(nhanVien.getHoTen());
+		nhanVien = nhanVien_DAO.TimTheoUser(txtUsername);
 		new UIQuanLyBanHang().setVisible(true);
-//		if(nhanVien != null) {
-//	        System.out.println("Đã thấy nhân viên: " + nhanVien.getHoTen());
-//	    } else {
-//	        System.out.println("Không tìm thấy nhân viên với user: " + txtUsername);
-//	    }
 	}
 	public UIQuanLyBanHang() {
 		// TODO Auto-generated constructor stub
@@ -65,7 +59,6 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 
 	    pnlWest = new JPanel();
 	    pnlWest.setLayout(new FlowLayout(FlowLayout.LEFT, 10, (int)(height*0.06)));
-//	    pnlWest.setAlignmentY(CENTER_ALIGNMENT);
 	    pnlWest.setBackground(new Color(224, 192, 151));
 	    pnlWest.setPreferredSize(new Dimension(200, height));
 	    
@@ -90,26 +83,26 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    lblTieuDe.setHorizontalTextPosition(JLabel.CENTER);
 	    lblTieuDe.setVerticalTextPosition(JLabel.CENTER);
 	    
-	    ImageIcon logoTen = new ImageIcon("imgs/sun.png");
-	    Image imgTen = logoTen.getImage().getScaledInstance(180, 120, Image.SCALE_SMOOTH);
+	    ImageIcon logoTen = new ImageIcon("imgs/plant.png");
+	    Image imgTen = logoTen.getImage().getScaledInstance(180, 100, Image.SCALE_SMOOTH);
 	    String tenNV = nhanVien != null ? nhanVien.getHoTen() : "";
 	    JLabel lblTen;
 	    lblTen = new JLabel(tenNV,new ImageIcon(imgTen),JLabel.CENTER);
 //	    System.out.println(nhanVien.getHoTen());
-	    lblTen.setFont(new Font("Tahoma", Font.BOLD, 12));
-//	    lblTen.setForeground(Color.white);
+	    lblTen.setFont(new Font("Tahoma", Font.BOLD, 14));
+	    lblTen.setForeground(new Color(8, 69, 126));
 	    lblTen.setHorizontalTextPosition(JLabel.CENTER);
-	    lblTen.setVerticalTextPosition(JLabel.CENTER);
+	    lblTen.setVerticalTextPosition(JLabel.NORTH);
 	    
 	    ImageIcon logoRole = new ImageIcon("imgs/star.png");
 	    Image imgRole = logoRole.getImage().getScaledInstance(80, 40, Image.SCALE_SMOOTH);
 	    String chucVu = nhanVien != null ? nhanVien.getRole() : "";
 	    JLabel lblChucVu;
-	    lblChucVu = new JLabel(chucVu,new ImageIcon(imgRole),JLabel.CENTER);
+	    lblChucVu = new JLabel(chucVu,new ImageIcon(imgRole),JLabel.LEFT);
 //	    System.out.println(nhanVien.getHoTen());
-	    lblChucVu.setFont(new Font("Tahoma", Font.BOLD, 10));
+	    lblChucVu.setFont(new Font("Tahoma", Font.BOLD, 16));
 //	    lblTen.setForeground(Color.white);
-	    lblChucVu.setHorizontalTextPosition(JLabel.CENTER);
+	    lblChucVu.setHorizontalTextPosition(JLabel.RIGHT);
 	    lblChucVu.setVerticalTextPosition(JLabel.CENTER);
 	    
 	    ImageIcon iconTC = new ImageIcon("imgs/home.png");
@@ -188,8 +181,13 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    btnThongKe.addActionListener(this);
 	    pnlWest.add(btnThongKe);
 	    
+	    
+	    ImageIcon iconTrangTri = new ImageIcon("imgs/trangTri.png");
+	    Image imgTT = iconTrangTri.getImage().getScaledInstance(180, 120, Image.SCALE_SMOOTH);
+	    pnlWest.add(new JLabel(new ImageIcon(imgTT)));
+	    
+	    pnlTen.add(lblChucVu, BorderLayout.NORTH);
 	    pnlTen.add(lblTen);
-	    pnlTen.add(lblChucVu, BorderLayout.SOUTH);
 	    pnlTen.setOpaque(false);
 	    
 	    pnlNorth.add(pnlLogo,BorderLayout.WEST);

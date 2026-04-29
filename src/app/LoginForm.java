@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import dao.NhanVien_DAO;
+import enity.NhanVien;
+
 public class LoginForm extends JFrame implements ActionListener{
 	
 	/**
@@ -69,8 +72,8 @@ public class LoginForm extends JFrame implements ActionListener{
 	    lblDangNhap.setForeground(mauChu);
 	    lblDangNhap.setFont(new Font("Tohoma", Font.BOLD, 36));
 	    
-	    txtTaiKhoan = new JTextField();
-	    txtMatKhau = new JPasswordField();
+	    txtTaiKhoan = new JTextField("admin");
+	    txtMatKhau = new JPasswordField("123");
 	    txtTaiKhoan.setOpaque(false);
 	    txtMatKhau.setOpaque(false);
 	    txtTaiKhoan.setBorder(BorderFactory.createLineBorder(mauChu));
@@ -157,9 +160,8 @@ public class LoginForm extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o==btnDangNhap) {
-			String taiKhoan ="admin";
-			String matKhau = "123";
-			if(taiKhoan.equals(txtTaiKhoan.getText()) && matKhau.equals(txtMatKhau.getText())) {
+			NhanVien nv = new NhanVien_DAO().TimTheoUser(txtTaiKhoan.getText(), txtMatKhau.getText());
+			if(nv != null) {
 				JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
 				new UIQuanLyBanHang(txtTaiKhoan.getText(),txtMatKhau.getText());
 				dispose();
