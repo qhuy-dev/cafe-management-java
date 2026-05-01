@@ -45,6 +45,41 @@ public class NhanVien_DAO {
 		return a;
 		
 	}
+	public NhanVien TimTheoMa(String maNhanVien) {
+		new ConnectDB();
+		NhanVien a=null ;
+		try {
+			ConnectDB.getInstance().connect();
+			Connection con = ConnectDB.getConnection();
+			String sql = "SELECT * FROM NhanVien WHERE maNhanVien = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, maNhanVien);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			// Vì username là UNIQUE, chỉ cần check 1 lần
+			if (rs.next()) {
+				a = new NhanVien(
+						rs.getString("maNhanVien"), 
+						rs.getString("hoTen"), 
+						rs.getString("username"), 
+						rs.getString("password"), 
+						rs.getString("role"), 
+						rs.getString("soDienThoai"), 
+						rs.getString("diaChi"), 
+						rs.getString("email"), 
+						rs.getDouble("tienLuong"), 
+						rs.getDate("ngaySinh").toLocalDate(), 
+						rs.getString("gioiTinh")
+						);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return a;
+		
+	}
 	public NhanVien TimTheoUser(String tenDangNhap,String matKhau) {
 		new ConnectDB();
 		NhanVien a=null ;

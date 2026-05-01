@@ -19,6 +19,12 @@ public class BanCafe {
 	public int getTrangThai() {
 		return trangThai;
 	}
+	public BanCafe(String maBan, String tenBan, int trangThai) {
+		super();
+		this.maBan = maBan;
+		this.tenBan = tenBan;
+		this.trangThai = trangThai;
+	}
 	public void setTrangThai(int trangThai) {
 		this.trangThai = trangThai;
 	}
