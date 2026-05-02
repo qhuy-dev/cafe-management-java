@@ -34,7 +34,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	Dimension kichThuocMan = Toolkit.getDefaultToolkit().getScreenSize();
 	int width = (int) (kichThuocMan.getWidth()*0.85);
 	int height = (int) (kichThuocMan.getHeight()*0.9);
-	JPanel pnlNorth,pnlWest;
+	JPanel pnlNorth,pnlWest,pnlTrangChu;
 	ImageIcon logo;
 	Image imgLogo;
 	JLabel lblLogo,lblTieuDe;
@@ -109,6 +109,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    Image imgTC = iconTC.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	    btnTrangChu = new JButton("Trang Chủ",new ImageIcon(imgTC));
 	    btnTrangChu.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	    btnTrangChu.setBackground(new Color(60, 40, 20));
 	    btnTrangChu.setForeground(Color.WHITE);
 	    btnTrangChu.setContentAreaFilled(false); // Xóa nền mặc định
 	    btnTrangChu.setBorderPainted(false);     // Xóa viền nút
@@ -116,10 +117,16 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    btnTrangChu.addActionListener(this);
 	    pnlWest.add(btnTrangChu);
 	    
+	    PanelTrangChu trangChu = new PanelTrangChu();
+	    
+	    pnlTrangChu = trangChu.TrangChu();
+		pnlTrangChu.setMaximumSize(new Dimension(trangChu.getWidth(), 100));
+	    
 	    ImageIcon iconBH = new ImageIcon("imgs/banHang.png");
 	    Image imgBH = iconBH.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	    btnBanHang = new JButton("Bán Hàng", new ImageIcon(imgBH));
 	    btnBanHang.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	    btnBanHang.setBackground(new Color(60, 40, 20));
 	    btnBanHang.setForeground(Color.WHITE);
 	    btnBanHang.setContentAreaFilled(false); // Xóa nền mặc định
 	    btnBanHang.setBorderPainted(false);     // Xóa viền nút
@@ -133,6 +140,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    Image imgSP = iconSP.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	    btnSanPham = new JButton("Sản Phẩm", new ImageIcon(imgSP));
 	    btnSanPham.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	    btnSanPham.setBackground(new Color(60, 40, 20));
 	    btnSanPham.setForeground(Color.WHITE);
 	    btnSanPham.setContentAreaFilled(false); // Xóa nền mặc định
 	    btnSanPham.setBorderPainted(false);     // Xóa viền nút
@@ -147,6 +155,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    Image imgKH = iconKH.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	    btnKhachHang = new JButton("Khách Hàng", new ImageIcon(imgKH));
 	    btnKhachHang.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	    btnKhachHang.setBackground(new Color(60, 40, 20));
 	    btnKhachHang.setForeground(Color.WHITE);
 	    btnKhachHang.setContentAreaFilled(false); // Xóa nền mặc định
 	    btnKhachHang.setBorderPainted(false);     // Xóa viền nút
@@ -160,6 +169,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    Image imgNV = iconNV.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	    btnNhanVien = new JButton("Nhân Viên", new ImageIcon(imgNV));
 	    btnNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	    btnNhanVien.setBackground(new Color(60, 40, 20));
 	    btnNhanVien.setForeground(Color.WHITE);
 	    btnNhanVien.setContentAreaFilled(false); // Xóa nền mặc định
 	    btnNhanVien.setBorderPainted(false);     // Xóa viền nút
@@ -174,6 +184,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    Image imgTK = iconTK.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 	    btnThongKe = new JButton("Thống Kê", new ImageIcon(imgTK));
 	    btnThongKe.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	    btnThongKe.setBackground(new Color(60, 40, 20));
 	    btnThongKe.setForeground(Color.WHITE);
 	    btnThongKe.setContentAreaFilled(false); // Xóa nền mặc định
 	    btnThongKe.setBorderPainted(false);     // Xóa viền nút
@@ -247,15 +258,43 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
+		btnTrangChu.setOpaque(false);
+		btnBanHang.setOpaque(false);
+		btnSanPham.setOpaque(false);
+		btnKhachHang.setOpaque(false);
+		btnNhanVien.setOpaque(false);
+		btnThongKe.setOpaque(false);
 		if(o== btnTrangChu) {
+			
+			btnTrangChu.setOpaque(true);
 			lblTieuDe.setText(btnTrangChu.getText().toUpperCase());
-			PanelTrangChu pnlTrangChu = new PanelTrangChu();
-			pnlTrangChu.setMaximumSize(new Dimension(pnlTrangChu.getWidth(), 100));
-			add(pnlTrangChu.TrangChu(), BorderLayout.CENTER);
+			
+			add(pnlTrangChu, BorderLayout.CENTER);
 		}
 		else if(o== btnBanHang) {
+			btnBanHang.setOpaque(true);
 			lblTieuDe.setText(btnBanHang.getText().toUpperCase());
 		}
+		else if(o== btnSanPham) {
+			btnSanPham.setOpaque(true);
+			lblTieuDe.setText(btnSanPham.getText().toUpperCase());
+		}
+		else if(o== btnKhachHang) {
+			btnKhachHang.setOpaque(true);
+			lblTieuDe.setText(btnKhachHang.getText().toUpperCase());
+		}
+		else if(o== btnNhanVien) {
+			btnNhanVien.setOpaque(true);
+			lblTieuDe.setText(btnNhanVien.getText().toUpperCase());
+		}
+		else if(o== btnThongKe) {
+			btnThongKe.setOpaque(true);
+			lblTieuDe.setText(btnThongKe.getText().toUpperCase());
+		}
+//		pnlWest.revalidate();
+	    pnlWest.repaint();  //sẽ gửi một yêu cầu "vẽ lại" vào hàng đợi
+//	    this.revalidate();
+//	    this.repaint();
 	}
 
 }
