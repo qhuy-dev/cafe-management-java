@@ -36,6 +36,24 @@ public class HoaDon_DAO {
 		}
 		return list;
 	}
+	public double getAllDoanhThu() {
+		new ConnectDB();
+		double doanhThu = 0;
+		try {
+			ConnectDB.getInstance().connect();
+			String sql = "SELECT * FROM HoaDon";
+			Statement stmt = ConnectDB.getConnection().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				doanhThu += rs.getDouble("tongTien");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+			e.printStackTrace();
+		}
+		return doanhThu;
+	}
 	public ArrayList<HoaDon> getHoaDon(LocalDate ngay) {
 		ArrayList<HoaDon> list = new ArrayList<>();
 		new ConnectDB();
