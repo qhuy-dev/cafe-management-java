@@ -21,15 +21,17 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import bus.HoaDon_BUS;
 import dao.HoaDon_DAO;
 import enity.HoaDon;
 
-public class PanelTrangChu extends JFrame{
+public class PanelTrangChu extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
+	private HoaDon_BUS hoaDon_BUS = new HoaDon_BUS();
 	private JTable tblHoaDon;
 	private DefaultTableModel tableModelHoaDon;
 	private JScrollPane scrollPaneHoaDon;
@@ -56,6 +58,7 @@ public class PanelTrangChu extends JFrame{
 		JPanel pnlb = new JPanel();
 		JPanel pnlc = new JPanel();
 		JPanel pnld = new JPanel();
+//		JPanel pnle = new JPanel();
 		
 		pnla.setLayout(new BorderLayout());
 		pnla.setPreferredSize(new Dimension(800, 250));
@@ -87,6 +90,11 @@ public class PanelTrangChu extends JFrame{
 		pnld.setLayout(new FlowLayout(FlowLayout.CENTER));
 		pnld.setPreferredSize(new Dimension(210,200));
 		pnld.setOpaque(false);
+		
+		
+//		pnle.setLayout(new BoxLayout(pnle, BoxLayout.X_AXIS));
+////		pnle.setPreferredSize(new Dimension(210,200));
+//		pnle.setOpaque(false);
 		
 		tableModelHoaDon = new DefaultTableModel();
 		tblHoaDon = new JTable(tableModelHoaDon);
@@ -131,12 +139,22 @@ public class PanelTrangChu extends JFrame{
 		lblDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		ImageIcon iconDoanhThu = new ImageIcon("imgs/doanhThu.png");
-		Image imgDoanhThu = iconDoanhThu.getImage().getScaledInstance(180, 145, Image.SCALE_SMOOTH);
-		JLabel lblDT = new JLabel(decimalFormat.format(hoaDon_DAO.getAllDoanhThu()),new ImageIcon(imgDoanhThu),JLabel.CENTER);
+		Image imgDoanhThu = iconDoanhThu.getImage().getScaledInstance(180, 150, Image.SCALE_SMOOTH);
+		JLabel lblDT = new JLabel(decimalFormat.format(hoaDon_BUS.getAllDoanhThu()),new ImageIcon(imgDoanhThu),JLabel.CENTER);
 		lblDT.setHorizontalTextPosition(JLabel.CENTER);
 		lblDT.setVerticalTextPosition(JLabel.CENTER);
 		lblDT.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblDT.setForeground(Color.WHITE);
+		
+		JLabel lblTitle = new JLabel("Lịch sử hoá đơn",JLabel.CENTER);
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 32));
+		lblTitle.setForeground(new Color(45, 105, 225));
+		
+		
+//		ImageIcon iconThanh = new ImageIcon("imgs/thanh.png");
+//		Image imgThanh = iconThanh.getImage().getScaledInstance(5000, 50, Image.SCALE_SMOOTH);
+//		JLabel lblWind = new JLabel(new ImageIcon(imgThanh));
+	
 		
 		pnlc.add(lblSoDon);
 		pnlc.add(lblDon);
@@ -144,8 +162,12 @@ public class PanelTrangChu extends JFrame{
 		pnld.add(lblDoanhThu);
 		pnld.add(lblDT);
 		
+//		pnle.add(lblWind);
+		
 		pnla.add(pnlc,BorderLayout.WEST);
 		pnla.add(pnld,BorderLayout.EAST);
+		pnla.add(lblTitle,BorderLayout.CENTER);
+//		pnla.add(pnle,BorderLayout.SOUTH);
 		pnlb.add(Box.createVerticalStrut(10));
 		pnlb.add(scrollPaneHoaDon);
 		pnlb.add(Box.createVerticalStrut(10));
