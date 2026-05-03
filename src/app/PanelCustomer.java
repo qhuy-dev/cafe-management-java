@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +28,11 @@ import javax.swing.table.DefaultTableModel;
 import bus.KhachHang_BUS;
 import enity.KhachHang;
 
-public class PanelCustomer implements ActionListener {
+public class PanelCustomer extends JFrame implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel pnlCenter;
 	private JTextField txtma;
 	private JTextField txtten;
@@ -200,6 +205,11 @@ public class PanelCustomer implements ActionListener {
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Component getTableCellRendererComponent(
 					JTable table, Object value, boolean isSelected,
@@ -240,5 +250,14 @@ public class PanelCustomer implements ActionListener {
 		KhachHang kh = new KhachHang(ma, ten, sdt);
 		return kh;
 	}
-
+	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(900, 600);
+		PanelCustomer panel = new PanelCustomer();
+		frame.add(panel.KhachHang());
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		
+	}
 }
