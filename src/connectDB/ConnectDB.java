@@ -11,8 +11,7 @@ public class ConnectDB {
 		return instance;
 	}
 	public void connect() throws SQLException{
-		  String urlString = "jdbc:sqlserver://localhost\\MSSQLSERVER02:1438;"
-                  + "databaseName=QLCafe";
+		String urlString ="jdbc:sqlserver://localhost:1433;databasename=QLCAFE";
 		con = DriverManager.getConnection(urlString,"sa", "123");
 	}
 	public static Connection getConnection() {
