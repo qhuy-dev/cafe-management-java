@@ -7,6 +7,12 @@ public class KhachHang {
 	public String getMaKhachHang() {
 		return maKhachHang;
 	}
+	public KhachHang(String maKhachHang, String hoTen, String soDienThoai) {
+		super();
+		this.maKhachHang = maKhachHang;
+		this.hoTen = hoTen;
+		this.soDienThoai = soDienThoai;
+	}
 	public void setMaKhachHang(String maKhachHang) {
 		this.maKhachHang = maKhachHang;
 	}
@@ -15,12 +21,6 @@ public class KhachHang {
 	}
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
-	}
-	public KhachHang(String maKhachHang, String hoTen, String soDienThoai) {
-		super();
-		this.maKhachHang = maKhachHang;
-		this.hoTen = hoTen;
-		this.soDienThoai = soDienThoai;
 	}
 	public String getSoDienThoai() {
 		return soDienThoai;
