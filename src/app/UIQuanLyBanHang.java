@@ -19,7 +19,6 @@ import javax.swing.JLabel;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import dao.NhanVien_DAO;
 import enity.NhanVien;
 
@@ -34,7 +33,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	Dimension kichThuocMan = Toolkit.getDefaultToolkit().getScreenSize();
 	int width = (int) (kichThuocMan.getWidth()*0.85);
 	int height = (int) (kichThuocMan.getHeight()*0.9);
-	JPanel pnlNorth,pnlWest,pnlTrangChu;
+	JPanel pnlNorth,pnlWest,pnlTrangChu,pnlVungChua;
 	ImageIcon logo;
 	Image imgLogo;
 	JLabel lblLogo,lblTieuDe;
@@ -121,6 +120,10 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    
 	    pnlTrangChu = trangChu.TrangChu();
 		pnlTrangChu.setMaximumSize(new Dimension(trangChu.getWidth(), 100));
+		
+		pnlVungChua = new JPanel(new BorderLayout()); // Khung chứa cố định
+		pnlVungChua.add(new PanelTrangChu().TrangChu(), BorderLayout.CENTER); // Mặc định hiện Trang Chủ
+		add(pnlVungChua, BorderLayout.CENTER);
 	    
 	    ImageIcon iconBH = new ImageIcon("imgs/banHang.png");
 	    Image imgBH = iconBH.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -209,7 +212,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    add(pnlNorth, BorderLayout.NORTH);
 
 	   
-	    
+	    add(pnlVungChua, BorderLayout.CENTER);
 	    
 	    
 	    
@@ -253,7 +256,12 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 		// TODO Auto-generated method stub
 		
 	}
-
+	private void updateVungChua(JPanel newPanel) {
+	    pnlVungChua.removeAll();       // Xóa nội dung bên trong khung chứa
+	    pnlVungChua.add(newPanel);     // Thêm panel mới vào khung đó
+	    pnlVungChua.revalidate();      // Tính toán lại layout cho khung
+	    pnlVungChua.repaint();         // Vẽ lại khung
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -263,13 +271,19 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 		btnSanPham.setOpaque(false);
 		btnKhachHang.setOpaque(false);
 		btnNhanVien.setOpaque(false);
-		btnThongKe.setOpaque(false);
+		btnThongKe.setOpaque(false);		
 		if(o== btnTrangChu) {
-			
+			 
 			btnTrangChu.setOpaque(true);
+			updateVungChua(new PanelTrangChu().TrangChu());
+//			pnlVungChua.removeAll();
+//			pnlVungChua = new PanelTrangChu().TrangChu();
+//			 add(pnlVungChua, BorderLayout.CENTER);
+//			 revalidate();
+//			 repaint();
 			lblTieuDe.setText(btnTrangChu.getText().toUpperCase());
 			
-			add(pnlTrangChu, BorderLayout.CENTER);
+//			add(pnlTrangChu, BorderLayout.CENTER);
 		}
 		else if(o== btnBanHang) {
 			btnBanHang.setOpaque(true);
@@ -281,6 +295,16 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 		}
 		else if(o== btnKhachHang) {
 			btnKhachHang.setOpaque(true);
+//			add(new PanelCustomer().KhachHang(), BorderLayout.CENTER);
+//			pnlVungChua.removeAll();
+//			pnlVungChua = new PanelCustomer().KhachHang();
+//			 add(pnlVungChua, BorderLayout.CENTER);
+//			 revalidate();
+//			 repaint();
+			 updateVungChua(new PanelCustomer().KhachHang());
+			 
+//			new CustomerUI().setVisible(true);
+			
 			lblTieuDe.setText(btnKhachHang.getText().toUpperCase());
 		}
 		else if(o== btnNhanVien) {
@@ -293,6 +317,8 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 		}
 //		pnlWest.revalidate();
 	    pnlWest.repaint();  //sẽ gửi một yêu cầu "vẽ lại" vào hàng đợi
+	    revalidate();
+	    repaint();
 //	    this.revalidate();
 //	    this.repaint();
 	}
