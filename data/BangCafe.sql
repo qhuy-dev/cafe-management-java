@@ -158,3 +158,24 @@ INSERT INTO ChiTietHoaDon (maHoaDon, maSanPham, soLuong, giaTien) VALUES
 ('HD018', 'SP009', 3, 30000), -- Tổng HD018: 90,000
 ('HD019', 'SP003', 1, 32000), -- Tổng HD019: 32,000
 ('HD020', 'SP002', 1, 29000); -- Tổng HD020: 29,000
+
+-- Thêm cột anhSanPham vào bảng đã có
+ALTER TABLE SanPham
+ADD anhSanPham NVARCHAR(255);
+
+-- Cập nhật đường dẫn ảnh cho từng sản phẩm
+UPDATE SanPham SET anhSanPham = 'imgs/denDa1.png'          WHERE maSanPham = 'SP001';
+UPDATE SanPham SET anhSanPham = 'imgs/nauda.png'           WHERE maSanPham = 'SP002';
+UPDATE SanPham SET anhSanPham = 'imgs/bacxiu.png'          WHERE maSanPham = 'SP003';
+UPDATE SanPham SET anhSanPham = 'imgs/tra-cam-sa.png'      WHERE maSanPham = 'SP004';
+UPDATE SanPham SET anhSanPham = 'imgs/trasuatranchau.png'  WHERE maSanPham = 'SP005';
+UPDATE SanPham SET anhSanPham = 'imgs/nuocam.png'          WHERE maSanPham = 'SP006';
+UPDATE SanPham SET anhSanPham = 'imgs/sinhtobo.png'        WHERE maSanPham = 'SP007';
+UPDATE SanPham SET anhSanPham = 'imgs/banhmi.png'          WHERE maSanPham = 'SP008';
+UPDATE SanPham SET anhSanPham = 'imgs/cros.png'            WHERE maSanPham = 'SP009';
+UPDATE SanPham SET anhSanPham = 'imgs/tiramisu.png'        WHERE maSanPham = 'SP010';
+UPDATE SanPham SET anhSanPham = 'imgs/travaihatsen.png'    WHERE maSanPham = 'SP011';
+UPDATE SanPham SET anhSanPham = 'imgs/matchadaxay.png'     WHERE maSanPham = 'SP012';
+UPDATE SanPham SET anhSanPham = 'imgs/cacao_nong.png'      WHERE maSanPham = 'SP013';
+UPDATE SanPham SET anhSanPham = 'imgs/soda_viet_quoc.png'  WHERE maSanPham = 'SP014';
+UPDATE SanPham SET anhSanPham = 'imgs/flan_dua.png'        WHERE maSanPham = 'SP015';

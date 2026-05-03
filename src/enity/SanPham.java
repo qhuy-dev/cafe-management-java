@@ -5,6 +5,20 @@ public class SanPham {
     private String tenSanPham;
     private double giaTien;
     private boolean trangThai;
+    private String anh;
+	public String getAnh() {
+		return anh;
+	}
+	public void setAnh(String anh) {
+		this.anh = anh;
+	}
+	public SanPham(String maSanPham, String tenSanPham, double giaTien, boolean trangThai) {
+		super();
+		this.maSanPham = maSanPham;
+		this.tenSanPham = tenSanPham;
+		this.giaTien = giaTien;
+		this.trangThai = trangThai;
+	}
 	public String getMaSanPham() {
 		return maSanPham;
 	}
