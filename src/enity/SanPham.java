@@ -19,6 +19,15 @@ public class SanPham {
 		this.giaTien = giaTien;
 		this.trangThai = trangThai;
 	}
+	public SanPham(String maSanPham) {
+		super();
+		this.maSanPham = maSanPham;
+	}
+	public SanPham(String maSanPham, String tenSanPham) {
+		super();
+		this.maSanPham = maSanPham;
+		this.tenSanPham = tenSanPham;
+	}
 	public String getMaSanPham() {
 		return maSanPham;
 	}

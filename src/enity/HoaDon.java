@@ -23,6 +23,10 @@ public class HoaDon {
 		this.ban = ban;
 		this.tongTien = tongTien;
 	}
+	public HoaDon(String maHoaDon) {
+		super();
+		this.maHoaDon = maHoaDon;
+	}
 	
 	public void setTongTien(double tongTien) {
 		this.tongTien = tongTien;

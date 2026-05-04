@@ -34,6 +34,10 @@ public class NhanVien {
 		// TODO Auto-generated constructor stub
 		this("", "", "", "", "", "", "", "", 0, null, "");
 	}
+	public NhanVien(String maNhanVien) {
+		super();
+		this.maNhanVien = maNhanVien;
+	}
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}

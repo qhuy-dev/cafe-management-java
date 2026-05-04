@@ -9,6 +9,7 @@ CREATE TABLE SanPham
 	maSanPham NVARCHAR(100) PRIMARY KEY,
 	tenSanPham NVARCHAR(150) NOT NULL,
 	giaTien FLOAT NOT NULL CHECK (giaTien > 0),
+	anhSanPham nvarchar(50),
 	trangThai BIT DEFAULT 1,
 )
 
@@ -179,3 +180,15 @@ UPDATE SanPham SET anhSanPham = 'imgs/matchadaxay.png'     WHERE maSanPham = 'SP
 UPDATE SanPham SET anhSanPham = 'imgs/cacao_nong.png'      WHERE maSanPham = 'SP013';
 UPDATE SanPham SET anhSanPham = 'imgs/soda_viet_quoc.png'  WHERE maSanPham = 'SP014';
 UPDATE SanPham SET anhSanPham = 'imgs/flan_dua.png'        WHERE maSanPham = 'SP015';
+
+
+INSERT INTO HoaDon (maHoaDon, ngayTao, maKhachHang, maNhanVien, maBan, tongTien) VALUES
+('HD100', '2026-05-01 08:00:00', 'KH001', 'NV002', 'B01', 75000),  -- (2*25k + 1*25k)
+('HD102', '2026-05-03 08:15:00', 'KH002', 'NV003', 'B04', 45000),  -- (1*45k)
+('HD103', '2026-05-02 08:30:00', 'KH003', 'NV002', 'B07', 29000)  -- (1*29k)
+
+INSERT INTO ChiTietHoaDon (maHoaDon, maSanPham, soLuong, giaTien) VALUES
+('HD100', 'SP001', 2, 25000), -- 50,000
+('HD100', 'SP008', 1, 25000), -- 25,000 -> Tổng HD001: 75,000
+('HD102', 'SP004', 1, 45000), -- Tổng HD002: 45,000
+('HD103', 'SP002', 1, 29000) -- Tổng HD003: 29,000
