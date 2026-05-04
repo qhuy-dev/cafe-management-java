@@ -292,6 +292,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 		}
 		else if(o== btnSanPham) {
 			btnSanPham.setOpaque(true);
+			 updateVungChua(new PanelProduct().SanPham());
 			lblTieuDe.setText(btnSanPham.getText().toUpperCase());
 		}
 		else if(o== btnKhachHang) {
@@ -314,6 +315,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 		}
 		else if(o== btnThongKe) {
 			btnThongKe.setOpaque(true);
+			 updateVungChua(new PanelThongKe().ThongKe());
 			lblTieuDe.setText(btnThongKe.getText().toUpperCase());
 		}
 //		pnlWest.revalidate();

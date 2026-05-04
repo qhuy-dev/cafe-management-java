@@ -99,8 +99,8 @@ public class SanPham_DAO {
 			return false;
 		}
 	}
-	public List<SanPham> danhSachSanPham(){
-		 List<SanPham> list = new ArrayList<>();
+	public ArrayList<SanPham> danhSachSanPham(){
+		ArrayList<SanPham> list = new ArrayList<>();
 		try {
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM SanPham ORDER BY maSanPham";

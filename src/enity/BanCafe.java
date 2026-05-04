@@ -25,6 +25,10 @@ public class BanCafe {
 		this.tenBan = tenBan;
 		this.trangThai = trangThai;
 	}
+	public BanCafe(String maBan) {
+		super();
+		this.maBan = maBan;
+	}
 	public void setTrangThai(int trangThai) {
 		this.trangThai = trangThai;
 	}

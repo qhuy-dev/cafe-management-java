@@ -36,10 +36,10 @@ public class PanelTrangChu extends JFrame {
 	private DefaultTableModel tableModelHoaDon;
 	private JScrollPane scrollPaneHoaDon;
 	private DecimalFormat decimalFormat = new DecimalFormat("#,###.## VNĐ");
-//	private static final LocalDate  NGAYHIENTAI = LocalDate.now();
+	private static final LocalDate  NGAYHIENTAI = LocalDate.now();
 	public void loadDanhSachHoaDon() {
 		tableModelHoaDon.setRowCount(0);
-		for (HoaDon hd : hoaDon_DAO.getAllHoaDon()) {
+		for (HoaDon hd : hoaDon_DAO.getHoaDon(NGAYHIENTAI)) {
 			Object[] rowData = {
 					hd.getMaHoaDon(),
 					hd.getNgayTao(),
@@ -48,9 +48,9 @@ public class PanelTrangChu extends JFrame {
 			};
 			tableModelHoaDon.addRow(rowData);
 		}
-		if(tableModelHoaDon.getRowCount() <2) {
-			tableModelHoaDon.addRow(new Object[] {"Không có hóa đơn nào"});
-		}
+//		if(tableModelHoaDon.getRowCount() <2) {
+//			tableModelHoaDon.addRow(new Object[] {"Không có hóa đơn nào"});
+//		}
 	}
 	public JPanel TrangChu() {
 		JPanel pnlTrangChu = new JPanel();
@@ -140,7 +140,7 @@ public class PanelTrangChu extends JFrame {
 		
 		ImageIcon iconDoanhThu = new ImageIcon("imgs/doanhThu.png");
 		Image imgDoanhThu = iconDoanhThu.getImage().getScaledInstance(180, 150, Image.SCALE_SMOOTH);
-		JLabel lblDT = new JLabel(decimalFormat.format(hoaDon_BUS.getAllDoanhThu()),new ImageIcon(imgDoanhThu),JLabel.CENTER);
+		JLabel lblDT = new JLabel(decimalFormat.format(hoaDon_BUS.getDoanhThu(NGAYHIENTAI)),new ImageIcon(imgDoanhThu),JLabel.CENTER);
 		lblDT.setHorizontalTextPosition(JLabel.CENTER);
 		lblDT.setVerticalTextPosition(JLabel.CENTER);
 		lblDT.setFont(new Font("Tahoma", Font.BOLD, 12));

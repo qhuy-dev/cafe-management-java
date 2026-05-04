@@ -34,7 +34,11 @@ import javax.swing.table.TableCellRenderer;
 import bus.SanPham_BUS;
 import enity.SanPham;
 
-public class PanelProduct implements ActionListener {
+public class PanelProduct extends JFrame implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	SanPham_BUS sanPham_BUS = new SanPham_BUS();
 	private JPanel pnlCenter;
 	private JTextField txtma;
@@ -53,9 +57,10 @@ public class PanelProduct implements ActionListener {
 	private String anhDuongDan = "";
 	private JFrame owner;
 
-	public PanelProduct(JFrame owner) {
-		this.owner = owner;
-	}
+//	public PanelProduct(JFrame owner) {
+//		this.owner = owner;
+//	}
+	
 
 	public JPanel SanPham() {
 		pnlCenter = new JPanel();
@@ -122,7 +127,8 @@ public class PanelProduct implements ActionListener {
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(table = new JTable(tableModel));
-		table.setRowHeight(25);
+		table.setRowHeight(30);
+		table.setPreferredSize(new Dimension(780, 500));
 		b4.add(scroll);
 
 		pnlCenter.add(b);
@@ -248,6 +254,11 @@ public class PanelProduct implements ActionListener {
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Component getTableCellRendererComponent(
 					JTable table, Object value, boolean isSelected,
@@ -323,5 +334,13 @@ public class PanelProduct implements ActionListener {
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(owner, "Giá tiền phải là số hợp lệ!"); return null;
 		}
+	}
+	public static void main(String[] args) {
+		JFrame f = new JFrame();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setSize(850, 700);
+		f.setLocationRelativeTo(null);
+		f.setContentPane(new PanelProduct().SanPham());
+		f.setVisible(true);
 	}
 }

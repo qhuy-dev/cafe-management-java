@@ -5,9 +5,16 @@ public class CTHoaDon {
     private SanPham sanPham; // Sản phẩm được mua
     private int soLuong;
     private double giaTien;  // Giá tại thời điểm bán
+    public CTHoaDon(HoaDon hoaDon, SanPham sanPham, int soLuong, double giaTien) {
+    	super();
+    	this.hoaDon = hoaDon;
+    	this.sanPham = sanPham;
+    	this.soLuong = soLuong;
+    }
 	public HoaDon getHoaDon() {
 		return hoaDon;
 	}
+	
 	public void setHoaDon(HoaDon hoaDon) {
 		this.hoaDon = hoaDon;
 	}
