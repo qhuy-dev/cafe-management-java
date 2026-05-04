@@ -12,10 +12,8 @@ import enity.SanPham;
 
 public class SanPham_DAO {
 	public SanPham TimTheoMaSP(String maSanPham) {
-		new ConnectDB();
 		SanPham a=null;
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM SanPham WHERE maSanPham = ?";
 			PreparedStatement stmt=con.prepareStatement(sql);
@@ -36,11 +34,9 @@ public class SanPham_DAO {
 		}return a;
 	}
 	public List<SanPham> TimTheoTenSP(String tenSanPham) {
-		new ConnectDB();
 		 List<SanPham> list = new ArrayList<>();
 	
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM SanPham WHERE tenSanPham = ?";
 			PreparedStatement stmt=con.prepareStatement(sql);
@@ -60,9 +56,7 @@ public class SanPham_DAO {
 		}return list;
 	}
 	public boolean themSanPham(SanPham sp) {
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="INSERT INTO SanPham(maSanPham,anhSanPham, tenSanPham, giaTien, trangThai) VALUES (?,?,?,?,?)";
 			PreparedStatement stmt =con.prepareStatement(sql);
@@ -78,9 +72,7 @@ public class SanPham_DAO {
 		}
 	}
 	public boolean chinhSuaSanPham(SanPham sp) {
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="UPDATE SanPham SET anhSanPham =?, tenSanPham=? , giaTien =?, trangThai=? WHERE maSanPham=?";
 			PreparedStatement stmt =con.prepareStatement(sql);
@@ -96,9 +88,7 @@ public class SanPham_DAO {
 		}
 	}
 	public boolean xoaSanPham(String maSanPham) {
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="DELETE FROM SanPham WHERE maSanPham=?";
 			PreparedStatement stmt=con.prepareStatement(sql);
@@ -110,10 +100,8 @@ public class SanPham_DAO {
 		}
 	}
 	public List<SanPham> danhSachSanPham(){
-		new ConnectDB();
 		 List<SanPham> list = new ArrayList<>();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM SanPham ORDER BY maSanPham";
 			PreparedStatement stmt=con.prepareStatement(sql);

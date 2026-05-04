@@ -12,9 +12,7 @@ import enity.HoaDon;
 public class HoaDon_DAO {
 	public ArrayList<HoaDon> getAllHoaDon() {
 		ArrayList<HoaDon> list = new ArrayList<>();
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			String sql = "SELECT * FROM HoaDon";
 			Statement stmt = ConnectDB.getConnection().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -39,9 +37,7 @@ public class HoaDon_DAO {
 	
 	public ArrayList<HoaDon> getHoaDon(LocalDate ngay) {
 		ArrayList<HoaDon> list = new ArrayList<>();
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			String sql = "SELECT * FROM HoaDon WHERE ngayTao = ? ";
 			PreparedStatement stmt = ConnectDB.getConnection().prepareStatement(sql);
 			stmt.setObject(1, ngay);

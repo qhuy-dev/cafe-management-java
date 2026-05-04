@@ -11,10 +11,8 @@ import enity.NhanVien;
 public class NhanVien_DAO {
 	
 	public NhanVien TimTheoUser(String tenDangNhap) {
-		new ConnectDB();
 		NhanVien a=null ;
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con = ConnectDB.getConnection();
 			String sql = "SELECT * FROM NhanVien WHERE username = ?";
 	        PreparedStatement stmt = con.prepareStatement(sql);
@@ -46,10 +44,8 @@ public class NhanVien_DAO {
 		
 	}
 	public NhanVien TimTheoMa(String maNhanVien) {
-		new ConnectDB();
 		NhanVien a=null ;
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con = ConnectDB.getConnection();
 			String sql = "SELECT * FROM NhanVien WHERE maNhanVien = ?";
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -81,10 +77,8 @@ public class NhanVien_DAO {
 		
 	}
 	public NhanVien TimTheoUser(String tenDangNhap,String matKhau) {
-		new ConnectDB();
 		NhanVien a=null ;
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con = ConnectDB.getConnection();
 			String sql = "SELECT * FROM NhanVien WHERE username = ? AND password = ?";
 			PreparedStatement stmt = con.prepareStatement(sql);

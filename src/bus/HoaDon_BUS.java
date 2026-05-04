@@ -7,10 +7,8 @@ import connectDB.ConnectDB;
 
 public class HoaDon_BUS {
 	public double getAllDoanhThu() {
-		new ConnectDB();
 		double doanhThu = 0;
 		try {
-			ConnectDB.getInstance().connect();
 			String sql = "SELECT * FROM HoaDon";
 			Statement stmt = ConnectDB.getConnection().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);

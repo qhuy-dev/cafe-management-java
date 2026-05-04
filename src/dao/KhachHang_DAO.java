@@ -13,10 +13,8 @@ import enity.SanPham;
 
 public class KhachHang_DAO {
 	public List<KhachHang> danhSachKhachHang(){
-		new ConnectDB();
 		 List<KhachHang> list = new ArrayList<>();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM KhachHang ORDER BY maKhachHang";
 			PreparedStatement stmt=con.prepareStatement(sql);
@@ -33,10 +31,8 @@ public class KhachHang_DAO {
 		return list;
 	}
 	public List<KhachHang> timKiemTheoTen(String kw){
-		new ConnectDB();
 		 List<KhachHang> list = new ArrayList<>();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM KhachHang WHERE hoTen LIKE ?";
 			PreparedStatement stmt=con.prepareStatement(sql);
@@ -54,10 +50,8 @@ public class KhachHang_DAO {
 		return list;
 	}
 	public List<KhachHang> timKiemTheoSDT(String kw){
-		new ConnectDB();
 		 List<KhachHang> list = new ArrayList<>();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM KhachHang WHERE soDienThoai LIKE ?";
 			PreparedStatement stmt=con.prepareStatement(sql);
@@ -75,9 +69,7 @@ public class KhachHang_DAO {
 		return list;
 	}
 	public boolean themKhachHang(KhachHang kh) {
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="INSERT INTO KhachHang(maKhachHang, hoTen, soDienThoai) VALUES (?,?,?)";
 			PreparedStatement stmt =con.prepareStatement(sql);
@@ -91,9 +83,7 @@ public class KhachHang_DAO {
 		}
 	}
 	public boolean chinhSuaKhachHang(KhachHang kh) {
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="UPDATE KhachHang SET hoTen=? , soDienThoai =? WHERE maKhachHang=?";
 			PreparedStatement stmt =con.prepareStatement(sql);
@@ -107,9 +97,7 @@ public class KhachHang_DAO {
 		}
 	}
 	public boolean xoaKhachHang(String maKhachHang) {
-		new ConnectDB();
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="DELETE FROM KhachHang WHERE maKhachHang=?";
 			PreparedStatement stmt=con.prepareStatement(sql);
@@ -121,10 +109,8 @@ public class KhachHang_DAO {
 		}
 	}
 	public KhachHang TimKiemTheoMa(String maKhachHang) {
-		new ConnectDB();
 		KhachHang a=null;
 		try {
-			ConnectDB.getInstance().connect();
 			Connection con=ConnectDB.getConnection();
 			String sql="SELECT * FROM KhachHang WHERE maKhachHang = ?";
 			PreparedStatement stmt=con.prepareStatement(sql);
