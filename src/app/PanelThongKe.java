@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -19,10 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import bus.HoaDon_BUS;
 import dao.CTHoaDon_DAO;
+import enity.KhachHangThongKe;
 import enity.SanPhamThongKe;
 
 public class PanelThongKe extends JFrame implements ActionListener{
@@ -30,9 +33,9 @@ public class PanelThongKe extends JFrame implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel pnlThongKe,pnlTongQuan,pnlDoanhThu,pnlSanPhamBanChay,pnlKhachHang,pnlNhanVien;
+	private JPanel pnlThongKe,pnlTongQuan,pnlSanPhamBanChay,pnlKhachHang;
 	private JLabel lblDoanhThu, lblSoLuongHoaDon,lblSanPhamBanChay,lblSoLuongDaBan;
-	private JComboBox<String> cboTQ,cboSPBC,cboKH,cboNV;
+	private JComboBox<String> cboTQ,cboSPBC,cboKH;
 	
 	private JPanel TongQuan(int so) {
 		if(so ==1) {
@@ -133,6 +136,16 @@ public class PanelThongKe extends JFrame implements ActionListener{
 		TongQuan.add(Box.createVerticalStrut(20));
 		TongQuan.add(pnlBottom);
 		TongQuan.add(Box.createVerticalStrut(20));
+		TongQuan.setBorder(
+			    BorderFactory.createTitledBorder(
+				        BorderFactory.createLineBorder(new Color(198, 153, 88), 2),
+				       "Thống kê tổng quan",
+				        TitledBorder.CENTER,
+				        TitledBorder.TOP,
+				        new Font("Tahoma", Font.BOLD, 16),
+				        new Color(198, 153, 88)
+				    )
+				);
 		return TongQuan;
 	}
 	
@@ -175,7 +188,16 @@ public class PanelThongKe extends JFrame implements ActionListener{
 					i+1, sp.getSanPham().getMaSanPham(), sp.getSanPham().getTenSanPham(), sp.getSoLuongBan(), sp.getTongTienBan()
 			});
 		}
-		
+		pnlSanPhamBanChay.setBorder(
+			    BorderFactory.createTitledBorder(
+				        BorderFactory.createLineBorder(new Color(198, 153, 88), 2),
+				       "Thống kê sản phẩm bán chạy",
+				        TitledBorder.CENTER,
+				        TitledBorder.TOP,
+				        new Font("Tahoma", Font.BOLD, 16),
+				        new Color(198, 153, 88)
+				    )
+				);
 		pnlSanPhamBanChay.setLayout(new BoxLayout(pnlSanPhamBanChay, BoxLayout.Y_AXIS));
 		pnlSanPhamBanChay.add(Box.createVerticalStrut(20));
 		pnlSanPhamBanChay.add(scrollPaneSanPhamBanChay);
@@ -183,15 +205,68 @@ public class PanelThongKe extends JFrame implements ActionListener{
 		
 		return pnlSanPhamBanChay;
 	}
+	private JPanel KhachHang(int so) {
+		ArrayList<KhachHangThongKe> listKhachHang = new ArrayList<enity.KhachHangThongKe>();
+		if(so ==1) {
+			listKhachHang = new dao.KhachHang_DAO().getThongKeKhachHang(LocalDate.now().getMonthValue(),LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+		}
+		else if(so == 0) {
+			listKhachHang = new dao.KhachHang_DAO().getThongKeKhachHang();
+		}
+		else if(so == 3) {
+			listKhachHang = new dao.KhachHang_DAO().getThongKeKhachHang(LocalDate.now().minusMonths(so).getMonthValue(),LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+		}
+		else {
+			return new JPanel();
+		}
+		JPanel pnlKhachHang = new JPanel();
+		pnlKhachHang.setOpaque(false);
+		DefaultTableModel tableModelKhachHang = new DefaultTableModel();
+		JTable tblKhachHang = new JTable(tableModelKhachHang);
+		JScrollPane scrollPaneKhachHang = new JScrollPane(tblKhachHang);
+		tableModelKhachHang.addColumn("STT");
+		tableModelKhachHang.addColumn("Mã Khách Hàng");
+		tableModelKhachHang.addColumn("Tên Khách Hàng");
+		tableModelKhachHang.addColumn("Số Điện Thoại");
+		tableModelKhachHang.addColumn("Số Đơn Hàng");
+		tableModelKhachHang.addColumn("Tổng Chi Tiêu");
+		tblKhachHang.setOpaque(false);
+		tblKhachHang.setRowHeight(25);
+		tblKhachHang.getTableHeader().setPreferredSize(new Dimension(0,32));
+		tblKhachHang.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
+		tblKhachHang.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tblKhachHang.setGridColor(new Color(198, 153, 88));
+		tblKhachHang.getTableHeader().setBackground(new Color(198, 153, 88));
+		tblKhachHang.getTableHeader().setForeground(Color.WHITE);
+		for (int i = 0; i < listKhachHang.size(); i++) {
+			KhachHangThongKe kh = listKhachHang.get(i);
+			tableModelKhachHang.addRow(new Object[] {
+					i+1, kh.getKhachHang().getMaKhachHang(), kh.getKhachHang().getHoTen(), kh.getKhachHang().getSoDienThoai(), kh.getSoDonHang(), kh.getTongChiTieu()
+			});
+		}
+		pnlKhachHang.setBorder(
+			    BorderFactory.createTitledBorder(
+				        BorderFactory.createLineBorder(new Color(198, 153, 88), 2),
+				       "Thống kê khách hàng mua hàng",
+				        TitledBorder.CENTER,
+				        TitledBorder.TOP,
+				        new Font("Tahoma", Font.BOLD, 16),
+				        new Color(198, 153, 88)
+				    )
+				);
+		pnlKhachHang.setLayout(new BoxLayout(pnlKhachHang, BoxLayout.Y_AXIS));
+		pnlKhachHang.add(Box.createVerticalStrut(20));
+		pnlKhachHang.add(scrollPaneKhachHang);
+		pnlKhachHang.add(Box.createVerticalStrut(20));
+		return pnlKhachHang;
+	}
 	public JPanel ThongKe() {
 //		JFrame frame = new JFrame("Thống kê");
 		
 		pnlThongKe = new JPanel();
 		pnlTongQuan = new JPanel();
-		pnlDoanhThu = new JPanel();
 		pnlSanPhamBanChay = new JPanel();
 		pnlKhachHang = new JPanel();
-		pnlNhanVien = new JPanel();
 		
 		pnlThongKe.setLayout(new BorderLayout());
 		
@@ -219,6 +294,19 @@ public class PanelThongKe extends JFrame implements ActionListener{
 		pnlSanPhamBanChay.add(pnlSPBCTop, BorderLayout.NORTH);
 		pnlSanPhamBanChay.add(SanPhamBanChay(1), BorderLayout.CENTER);
 		
+		pnlKhachHang.setLayout(new BorderLayout());
+		pnlKhachHang.setBackground(new Color(255, 248, 220));
+		JPanel pnlKHTop = new JPanel();
+		pnlKHTop.setOpaque(false);
+		pnlKHTop.setLayout(new FlowLayout(FlowLayout.LEFT));
+		cboKH = new JComboBox<>(new String[] {"1 Tháng", "Từ trước tới nay", "3 Tháng"});
+		cboKH.addActionListener(this);
+		pnlKHTop.add(new JLabel("Chọn khoảng thời gian:"));
+		pnlKHTop.add(cboKH);
+		pnlKhachHang.add(pnlKHTop, BorderLayout.NORTH);
+		pnlKhachHang.add(KhachHang(1), BorderLayout.CENTER);
+		
+		
 		
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
@@ -227,7 +315,6 @@ public class PanelThongKe extends JFrame implements ActionListener{
 		tabbedPane.addTab("Tổng quan", pnlTongQuan);
 		tabbedPane.addTab("Sản phẩm bán chạy", pnlSanPhamBanChay);
 		tabbedPane.addTab("Khách hàng", pnlKhachHang);
-		tabbedPane.addTab("Nhân viên", pnlNhanVien);
 		
 		pnlThongKe.add(tabbedPane);
 		
@@ -326,6 +413,47 @@ public class PanelThongKe extends JFrame implements ActionListener{
 				pnlSanPhamBanChay.add(SanPhamBanChay(3), BorderLayout.CENTER);
 				pnlSanPhamBanChay.revalidate();
 				pnlSanPhamBanChay.repaint();
+				break;
+			
+			default:
+				break;
+			}
+		}
+		else if(o.equals(cboKH)) {
+			pnlKhachHang.removeAll();
+			JPanel pnlKHTop = new JPanel();
+			pnlKHTop.setOpaque(false);
+			pnlKHTop.setLayout(new FlowLayout(FlowLayout.LEFT));
+			
+			int selectedIndex = cboKH.getSelectedIndex();
+			
+			switch (selectedIndex) {
+			case 0:
+				pnlKHTop.add(new JLabel("Chọn khoảng thời gian:"));
+				cboKH.setSelectedIndex(0);
+				pnlKHTop.add(cboKH);
+				pnlKhachHang.add(pnlKHTop, BorderLayout.NORTH);
+				pnlKhachHang.add(KhachHang(1), BorderLayout.CENTER);
+				pnlKhachHang.revalidate();
+				pnlKhachHang.repaint();
+				break;
+			case 1:
+				pnlKHTop.add(new JLabel("Chọn khoảng thời gian:"));
+				cboKH.setSelectedIndex(1);
+				pnlKHTop.add(cboKH);
+				pnlKhachHang.add(pnlKHTop, BorderLayout.NORTH);
+				pnlKhachHang.add(KhachHang(0), BorderLayout.CENTER);
+				pnlKhachHang.revalidate();
+				pnlKhachHang.repaint();
+				break;
+			case 2:
+				pnlKHTop.add(new JLabel("Chọn khoảng thời gian:"));
+				cboKH.setSelectedIndex(2);
+				pnlKHTop.add(cboKH);
+				pnlKhachHang.add(pnlKHTop, BorderLayout.NORTH);
+				pnlKhachHang.add(KhachHang(3), BorderLayout.CENTER);
+				pnlKhachHang.revalidate();
+				pnlKhachHang.repaint();
 				break;
 			
 			default:
