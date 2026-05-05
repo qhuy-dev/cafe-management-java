@@ -148,6 +148,7 @@ public class CTHoaDon_DAO {
 			             "AND YEAR(hd.ngayTao) BETWEEN ? AND ? " +
 			             "GROUP BY sp.maSanPham, sp.tenSanPham " + 
 			             "ORDER BY soLuongBan DESC";
+			
 				pstmt = ConnectDB.getConnection().prepareStatement(sql);
 				pstmt.setInt(1, tu);
 				pstmt.setInt(2, den);
