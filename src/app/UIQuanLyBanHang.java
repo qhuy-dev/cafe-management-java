@@ -113,6 +113,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    btnTrangChu.setContentAreaFilled(false); // Xóa nền mặc định
 	    btnTrangChu.setBorderPainted(false);     // Xóa viền nút
 	    btnTrangChu.setFocusPainted(false);      // Xóa khung focus khi click
+	    
 	    btnTrangChu.addActionListener(this);
 	    pnlWest.add(btnTrangChu);
 	    
@@ -221,6 +222,7 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 	    setSize(width, height);
 	    setLocationRelativeTo(null);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    btnTrangChu.doClick(); // Tự động click vào nút Trang Chủ khi khởi tạo giao diện
 	
 	}
 	public static void main(String[] args) {

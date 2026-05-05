@@ -178,11 +178,12 @@ public class PanelTrangChu extends JFrame {
 		return pnlTrangChu;
 	}
 	public static void main(String[] args) {
-//		PanelTrangChu panel = new PanelTrangChu();
+		PanelTrangChu panel = new PanelTrangChu();
 		JFrame frame = new JFrame("Quản Lý Bán Hàng Coffee");
 //		JPanel pnlMain = new JPanel();
 //		pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.Y_AXIS));
 //		pnlMain.add(panel.TrangChu());
+		frame.add(panel.TrangChu());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 //		frame.add(panel.TrangChu());

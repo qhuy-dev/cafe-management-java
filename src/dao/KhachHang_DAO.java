@@ -9,7 +9,7 @@ import java.util.List;
 
 import connectDB.ConnectDB;
 import enity.KhachHang;
-import enity.SanPham;
+import enity.KhachHangThongKe;
 
 public class KhachHang_DAO {
 	public List<KhachHang> danhSachKhachHang(){
@@ -127,5 +127,76 @@ public class KhachHang_DAO {
 			e.printStackTrace();
 		}return a;
 		
+	}
+	public ArrayList<KhachHangThongKe> getThongKeKhachHang(){
+		ArrayList<KhachHangThongKe> list = new ArrayList<>();
+		try {
+			Connection con=ConnectDB.getConnection();
+			String sql="SELECT kh.maKhachHang, kh.hoTen,soDienThoai,COUNT(dh.maHoaDon) AS soDonHang, SUM(dh.tongTien) AS tongChiTieu "
+					+ "FROM KhachHang kh LEFT JOIN HoaDon dh ON kh.maKhachHang = dh.maKhachHang "
+					+ "GROUP BY kh.maKhachHang, kh.hoTen,soDienThoai "
+					+ "ORDER BY tongChiTieu DESC";
+			PreparedStatement stmt=con.prepareStatement(sql);
+			ResultSet rs=stmt.executeQuery();
+			while(rs.next()) {
+				KhachHang kh = new KhachHang(
+						rs.getString("maKhachHang"),
+						rs.getString("hoTen"),
+						rs.getString("soDienThoai")
+						);
+				int soDonHang = rs.getInt("soDonHang");
+				double tongChiTieu = rs.getDouble("tongChiTieu");
+				list.add(new KhachHangThongKe(kh, soDonHang, tongChiTieu));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public ArrayList<KhachHangThongKe> getThongKeKhachHang(int tu, int den,int nam){
+		ArrayList<KhachHangThongKe> list = new ArrayList<KhachHangThongKe>();
+		String sql;
+		PreparedStatement stmt;
+		
+			try {
+				if(den-tu<0) {
+					sql="SELECT kh.maKhachHang, kh.hoTen,soDienThoai,COUNT(dh.maHoaDon) AS soDonHang, SUM(dh.tongTien) AS tongChiTieu "
+							+ "FROM KhachHang kh LEFT JOIN HoaDon dh ON kh.maKhachHang = dh.maKhachHang "
+							+ "WHERE MONTH(dh.ngayTao) BETWEEN ? AND ? AND YEAR(dh.ngayTao) BETWEEN ? AND ? "
+							+ "GROUP BY kh.maKhachHang, kh.hoTen,soDienThoai "
+							+ "ORDER BY tongChiTieu DESC";
+					stmt=ConnectDB.getConnection().prepareStatement(sql);
+					stmt.setInt(1, tu);
+					stmt.setInt(2, den);
+					stmt.setInt(3, nam-1);
+					stmt.setInt(4, nam);
+					
+					}
+				else {
+					sql="SELECT kh.maKhachHang, kh.hoTen,soDienThoai,COUNT(dh.maHoaDon) AS soDonHang, SUM(dh.tongTien) AS tongChiTieu "
+							+ "FROM KhachHang kh LEFT JOIN HoaDon dh ON kh.maKhachHang = dh.maKhachHang "
+							+ "WHERE MONTH(dh.ngayTao) BETWEEN ? AND ? AND YEAR(dh.ngayTao) = ? "
+							+ "GROUP BY kh.maKhachHang, kh.hoTen,soDienThoai "
+							+ "ORDER BY tongChiTieu DESC";
+					stmt=ConnectDB.getConnection().prepareStatement(sql);
+					stmt.setInt(1, tu);
+					stmt.setInt(2, den);
+					stmt.setInt(3, nam);
+				}
+				ResultSet rs=stmt.executeQuery();
+				while(rs.next()) {
+					KhachHang kh = new KhachHang(
+							rs.getString("maKhachHang"),
+							rs.getString("hoTen"),
+							rs.getString("soDienThoai")
+							);
+					int soDonHang = rs.getInt("soDonHang");
+					double tongChiTieu = rs.getDouble("tongChiTieu");
+					list.add(new KhachHangThongKe(kh, soDonHang, tongChiTieu));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return list;
 	}
 }
