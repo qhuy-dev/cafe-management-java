@@ -47,7 +47,7 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 	
 	private DefaultTableModel tableModel;
 	private JTable table;
-	
+	private JFrame frame;
 	private JButton btnthem, btnsua, btnxoa, btnlammoi, btntimkiem;
 	private JButton btndangxuat;
 	private JFrame owner;
@@ -57,7 +57,7 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 //	}
 	
 
-	public JPanel NhanVienPanel(NhanVien nv) {
+	public JPanel NhanVienPanel(NhanVien nv,JFrame a) {
 		pnlCenter = new JPanel();
 		pnlCenter.setPreferredSize(new Dimension(800, 250));
 		pnlCenter.setLayout(new BorderLayout());
@@ -176,6 +176,8 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.setRowHeight(25);
 		b6.add(scroll);
+		
+		frame = a;
 
 		pnlCenter.add(b, BorderLayout.CENTER);
 
@@ -260,17 +262,31 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 			loadTable(nhanVien_BUS.timKiemNhanVien(ma, ten));
 		}
 		else if (o == btndangxuat) {
-		    int cf = JOptionPane.showConfirmDialog(owner,
+		    int cf = JOptionPane.showConfirmDialog(this,
 		        "Bạn có chắc muốn đăng xuất?",
 		        "Xác nhận",
 		        JOptionPane.YES_NO_OPTION);
 
 		    if (cf == JOptionPane.YES_OPTION) {
-		        owner.dispose(); 
+		        frame.dispose(); 
 
 		        LoginForm login = new LoginForm();
 		        login.setVisible(true); 
 		    }
+//			int cf = JOptionPane.showConfirmDialog(owner,
+//			        "Bạn có chắc muốn đăng xuất?",
+//			        "Xác nhận",
+//			        JOptionPane.YES_NO_OPTION);
+//
+//			    if (cf == JOptionPane.YES_OPTION) {
+//			    	 Window w = SwingUtilities.getWindowAncestor(pnlCenter);
+//			            if (w != null) {
+//			                w.dispose();
+//			            }
+//
+//			            LoginForm login = new LoginForm();
+//			            login.setVisible(true);
+//			    }
 		}
 	}
 
@@ -409,11 +425,10 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 		    JOptionPane.showMessageDialog(owner, "SĐT phải 10 số và bắt đầu bằng 0!");
 		    return null;
 		}
-		if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\\\.com$")) {
+		if (!email.matches("^[A-Za-z0-9+_.-]+@gmail+\\.com$")) {
 		    JOptionPane.showMessageDialog(owner, "Email không hợp lệ!");
 		    return null;
 		}
-
 		return new NhanVien(ma, ten, user, pass, role, sdt, diaChi, email, luong, ngaySinh, gioiTinh);
 	}
 }
