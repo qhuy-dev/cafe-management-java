@@ -1,4 +1,4 @@
-package enity;
+package entity;
 
 public class CTHoaDon {
 	private HoaDon hoaDon;   // Liên kết ngược về hóa đơn

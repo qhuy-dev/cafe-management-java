@@ -6,10 +6,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
-import enity.CTHoaDon;
-import enity.HoaDon;
-import enity.SanPham;
-import enity.SanPhamThongKe;
+import entity.CTHoaDon;
+import entity.HoaDon;
+import entity.SanPham;
+import entity.SanPhamThongKe;
 
 public class CTHoaDon_DAO {
 	public ArrayList<CTHoaDon> getAllCTHoaDon() {

@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import bus.KhachHang_BUS;
-import enity.KhachHang;
+import entity.KhachHang;
 
 public class PanelCustomer extends JFrame implements ActionListener {
 	/**

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.ConnectDB;
-import enity.KhachHang;
-import enity.KhachHangThongKe;
+import entity.KhachHang;
+import entity.KhachHangThongKe;
 
 public class KhachHang_DAO {
 	public List<KhachHang> danhSachKhachHang(){

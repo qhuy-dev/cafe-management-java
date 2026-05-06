@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import bus.HoaDon_BUS;
 import dao.HoaDon_DAO;
-import enity.HoaDon;
+import entity.HoaDon;
 
 public class PanelTrangChu extends JFrame {
 	/**

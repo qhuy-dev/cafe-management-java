@@ -6,9 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import connectDB.ConnectDB;
-import enity.NhanVien;
+import entity.NhanVien;
 
 public class NhanVien_DAO {
 	
@@ -148,7 +149,23 @@ public class NhanVien_DAO {
 	        }
 	        return ds;
 	    }
-
+	 public List<NhanVien> getAllNhanVien() {
+		    List<NhanVien> ds = new ArrayList<>();
+		    String sql = "SELECT maNhanVien, hoTen FROM NhanVien";
+		    try (Connection con = connectDB.ConnectDB.getConnection();
+		         PreparedStatement pst = con.prepareStatement(sql);
+		         ResultSet rs = pst.executeQuery()) {
+		        while (rs.next()) {
+		            NhanVien nv = new NhanVien();
+		            nv.setMaNhanVien(rs.getString("maNhanVien"));
+		            nv.setHoTen(rs.getString("hoTen"));
+		            ds.add(nv);
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    return ds;
+		}
 	    public boolean themNhanVien(NhanVien nv) {
 	        int n = 0;
 	        try {

@@ -25,8 +25,8 @@ import javax.swing.table.DefaultTableModel;
 
 import bus.HoaDon_BUS;
 import dao.CTHoaDon_DAO;
-import enity.KhachHangThongKe;
-import enity.SanPhamThongKe;
+import entity.KhachHangThongKe;
+import entity.SanPhamThongKe;
 
 public class PanelThongKe extends JFrame implements ActionListener{
 	/**
@@ -206,7 +206,7 @@ public class PanelThongKe extends JFrame implements ActionListener{
 		return pnlSanPhamBanChay;
 	}
 	private JPanel KhachHang(int so) {
-		ArrayList<KhachHangThongKe> listKhachHang = new ArrayList<enity.KhachHangThongKe>();
+		ArrayList<KhachHangThongKe> listKhachHang = new ArrayList<entity.KhachHangThongKe>();
 		if(so ==1) {
 			listKhachHang = new dao.KhachHang_DAO().getThongKeKhachHang(LocalDate.now().getMonthValue(),LocalDate.now().getMonthValue(), LocalDate.now().getYear());
 		}

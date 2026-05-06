@@ -1,4 +1,4 @@
-package enity;
+package entity;
 
 public class SanPhamThongKe {
 	private SanPham sanPham;

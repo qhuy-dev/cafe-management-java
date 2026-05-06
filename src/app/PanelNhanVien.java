@@ -29,8 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import enity.NhanVien;
 import bus.NhanVien_BUS; // Đã mở comment
+import entity.NhanVien;
 
 public class PanelNhanVien implements ActionListener {
 	NhanVien_BUS nhanVien_BUS = new NhanVien_BUS(); // Đã mở comment

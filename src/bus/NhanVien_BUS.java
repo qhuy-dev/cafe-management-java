@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.NhanVien_DAO;
-import enity.NhanVien;
+import entity.NhanVien;
 
 public class NhanVien_BUS {
 	NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();

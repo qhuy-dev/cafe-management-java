@@ -9,9 +9,9 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import bus.SanPham_BUS;
-import enity.BanCafe;
-import enity.SanPham;
 import dao.Ban_DAO;
+import entity.BanCafe;
+import entity.SanPham;
 import dao.BanCafe_DAO;
 
 public class PanelOrder implements ActionListener {
@@ -27,7 +27,6 @@ public class PanelOrder implements ActionListener {
     private DefaultTableModel modelCart;
     private JTable tblCart;
     
-    // Các thành phần tương tác
     private JLabel lblTongTien;
     private JLabel lblBanDangChon;
     private JButton btnXoaMon, btnThanhToan;
@@ -43,9 +42,6 @@ public class PanelOrder implements ActionListener {
         pnlCenter.setBackground(new Color(255, 248, 235));
         pnlCenter.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // ==========================================
-        // 1. KHU VỰC BÊN TRÁI: DANH SÁCH BÀN
-        // ==========================================
         JPanel pnlTableLayout = new JPanel(new BorderLayout());
         pnlTableLayout.setOpaque(false);
         pnlTableLayout.setBorder(BorderFactory.createTitledBorder(
@@ -64,13 +60,10 @@ public class PanelOrder implements ActionListener {
         scrollBan.getViewport().setOpaque(false);
         pnlTableLayout.add(scrollBan, BorderLayout.CENTER);
 
-        // ==========================================
-        // 2. KHU VỰC BÊN PHẢI: SẢN PHẨM & GIỎ HÀNG
-        // ==========================================
         JPanel pnlRight = new JPanel(new BorderLayout(0, 10));
         pnlRight.setOpaque(false);
 
-        // 2.1. Bảng Sản Phẩm (Nửa trên)
+        // 2.1. Bảng Sản Phẩm 
         JPanel pnlMenu = new JPanel(new BorderLayout());
         pnlMenu.setOpaque(false);
         pnlMenu.setBorder(BorderFactory.createTitledBorder(
@@ -81,13 +74,13 @@ public class PanelOrder implements ActionListener {
         String[] colsSP = {"Mã SP", "Tên Sản Phẩm", "Giá Tiền"};
         modelSanPham = new DefaultTableModel(colsSP, 0) {
             @Override
-            public boolean isCellEditable(int row, int column) { return false; } // Khóa edit bảng
+            public boolean isCellEditable(int row, int column) { return false; } 
         };
         tblSanPham = new JTable(modelSanPham);
         styleTable(tblSanPham);
         pnlMenu.add(new JScrollPane(tblSanPham), BorderLayout.CENTER);
 
-        // 2.2. Bảng Giỏ Hàng (Nửa dưới)
+        // 2.2. Bảng Giỏ Hàng 
         JPanel pnlCart = new JPanel(new BorderLayout());
         pnlCart.setOpaque(false);
         
@@ -140,7 +133,6 @@ public class PanelOrder implements ActionListener {
         pnlActions.add(pnlButtons, BorderLayout.EAST);
         pnlCart.add(pnlActions, BorderLayout.SOUTH);
 
-        // Ghép Layout
         JSplitPane splitRight = new JSplitPane(JSplitPane.VERTICAL_SPLIT, pnlMenu, pnlCart);
         splitRight.setResizeWeight(0.5);
         splitRight.setOpaque(false);
@@ -150,25 +142,19 @@ public class PanelOrder implements ActionListener {
         pnlCenter.add(pnlTableLayout, BorderLayout.WEST);
         pnlCenter.add(pnlRight, BorderLayout.CENTER);
 
-        // Gọi các hàm khởi tạo dữ liệu và sự kiện
         addEvents();
         
-        // TODO: THAY THẾ BẰNG DỮ LIỆU TỪ DATABASE CỦA BẠN
         loadDataBan(); 
         loadDataSanPham();
 
         return pnlCenter;
     }
 
-    // ==========================================
-    // CÁC HÀM XỬ LÝ SỰ KIỆN CLICK
-    // ==========================================
     private void addEvents() {
-        // Sự kiện click đúp vào Sản Phẩm để thêm vào giỏ hàng
         tblSanPham.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) { // Click đúp
+                if (e.getClickCount() == 2) { 
                     if(banHienTai.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Vui lòng chọn bàn trước khi order!");
                         return;
@@ -213,24 +199,16 @@ public class PanelOrder implements ActionListener {
                 // hoaDon_BUS.taoHoaDon(maBan, tongTien, listChiTiet...);
                 
                 JOptionPane.showMessageDialog(null, "Thanh toán thành công!");
-                
-                // Reset giao diện sau khi thanh toán
                 modelCart.setRowCount(0);
                 capNhatTongTien();
                 banHienTai = "";
                 lblBanDangChon.setText("Chưa chọn bàn");
-                
-                // TODO: Load lại danh sách bàn để cập nhật trạng thái (đỏ -> xanh)
                 loadDataBan(); 
             }
         }
     }
 
-    // ==========================================
-    // LOGIC NGHIỆP VỤ BÊN TRONG UI
-    // ==========================================
     private void themVaoGioHang(String maSP, String tenSP, double giaSP) {
-        // Kiểm tra xem món đó đã có trong giỏ chưa, nếu có thì +1 số lượng
         boolean daCo = false;
         for (int i = 0; i < modelCart.getRowCount(); i++) {
             if (modelCart.getValueAt(i, 0).toString().equals(maSP)) {
@@ -244,7 +222,6 @@ public class PanelOrder implements ActionListener {
                 break;
             }
         }
-        // Nếu chưa có thì thêm dòng mới
         if (!daCo) {
             modelCart.addRow(new Object[]{maSP, tenSP, 1, giaSP, giaSP});
         }
@@ -267,14 +244,9 @@ public class PanelOrder implements ActionListener {
         table.setSelectionBackground(new Color(255, 204, 153));
     }
 
-    // ==========================================
-    // HÀM ĐỔ DỮ LIỆU TỪ DATABASE (MOCK)
-    // ==========================================
-    
-    // TODO: Sửa hàm này thành loadDataSanPham(List<SanPham> list)
     private void loadDataSanPham() {
-        modelSanPham.setRowCount(0); // Xóa sạch bảng cũ
-        List<SanPham> listSP = BanCafeDAO.getAllSanPhamBan(); // Gọi DAO kéo data lên
+        modelSanPham.setRowCount(0); 
+        List<SanPham> listSP = BanCafeDAO.getAllSanPhamBan(); 
         
         for (SanPham sp : listSP) {
             modelSanPham.addRow(new Object[]{
@@ -285,27 +257,20 @@ public class PanelOrder implements ActionListener {
         }
     }
 
-    // ==========================================
-    // 2. HÀM LOAD VÀ XỬ LÝ CLICK ĐỔI MÀU BÀN
-    // ==========================================
     private void loadDataBan() {
         pnlGridBan.removeAll();
         
-        // Gọi DAO kéo danh sách bàn từ CSDL lên
         List<BanCafe> listBan = BanCafeDAO.getAllTable();
         
         for (BanCafe ban : listBan) {
             String maBan = ban.getMaBan();
             String tenBan = ban.getTenBan();
             
-            // Mảng 1 phần tử để có thể update giá trị bên trong hàm addActionListener
             final int[] trangThai = { ban.getTrangThai() }; 
             
             JButton btnBan = new JButton(tenBan);
             btnBan.setFont(new Font("Tahoma", Font.BOLD, 14));
             btnBan.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            
-            // Tô màu dựa theo Database
             if (trangThai[0] == 1) {
                 btnBan.setBackground(new Color(255, 102, 102)); // Đỏ: Đang dùng
                 btnBan.setForeground(Color.WHITE);
@@ -314,27 +279,42 @@ public class PanelOrder implements ActionListener {
                 btnBan.setForeground(Color.BLACK);
             }
 
-            // Xử lý sự kiện click vào Bàn
             btnBan.addActionListener(e -> {
-                banHienTai = maBan;
-                lblBanDangChon.setText(tenBan);
-                
-                // Bàn trống -> Hỏi mở bàn
                 if (trangThai[0] == 0) {
                     int cf = JOptionPane.showConfirmDialog(pnlCenter, 
                             "Khách vào " + tenBan + " đúng không?", "Mở Bàn", JOptionPane.YES_NO_OPTION);
                             
                     if (cf == JOptionPane.YES_OPTION) {
                         if (banDAO.updateTrangThaiBan(maBan, 1)) {
-                            btnBan.setBackground(new Color(255, 102, 102)); 
+                            btnBan.setBackground(new Color(255, 102, 102)); // Đổi sang Đỏ
                             btnBan.setForeground(Color.WHITE);
-                            trangThai[0] = 1; // Cập nhật lại biến cờ
+                            trangThai[0] = 1; 
+                            banHienTai = maBan;
+                            lblBanDangChon.setText(tenBan);
+                            modelCart.setRowCount(0);
+                            capNhatTongTien();
                         }
                     }
                 } 
-                // Bàn có khách -> Có thể load chi tiết giỏ hàng cũ ra (làm sau)
                 else {
-                    // System.out.println("Bàn này đang có khách!");
+                    banHienTai = maBan;
+                    lblBanDangChon.setText(tenBan);
+                    
+                    int cf = JOptionPane.showConfirmDialog(pnlCenter, 
+                            "Bạn có chắc chắn muốn hủy " + tenBan + " không? ", 
+                            "Hủy Bàn", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                            
+                    if (cf == JOptionPane.YES_OPTION) {
+                        if (banDAO.updateTrangThaiBan(maBan, 0)) {
+                            btnBan.setBackground(new Color(153, 255, 153)); // Đổi lại Xanh lá
+                            btnBan.setForeground(Color.BLACK);
+                            trangThai[0] = 0; 
+                            modelCart.setRowCount(0);
+                            capNhatTongTien();
+                            banHienTai = "";
+                            lblBanDangChon.setText("Chưa chọn bàn");
+                        }
+                    }
                 }
             });
             

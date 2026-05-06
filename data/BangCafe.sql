@@ -110,8 +110,9 @@ INSERT INTO NhanVien (maNhanVien, hoTen, username, password, role, soDienThoai, 
 
 -- 4. Chèn dữ liệu bảng TableCafe
 INSERT INTO TableCafe (maBan, tenBan, trangThai) VALUES
-('B01', N'Bàn 1 (Cửa sổ)', 0), ('B02', N'Bàn 2', 0), ('B03', N'Bàn 3', 0), ('B04', N'Bàn 4 (Góc)', 0), ('B05', N'Bàn 5', 0),
-('B06', N'Bàn 6 (Lầu)', 0), ('B07', N'Bàn 7', 0), ('B08', N'Bàn 8', 0), ('B09', N'Bàn VIP 1', 0), ('B10', N'Bàn VIP 2', 0);
+('B01', N'Bàn 1', 0), ('B02', N'Bàn 2', 0), ('B03', N'Bàn 3', 0), ('B04', N'Bàn 4', 0), ('B05', N'Bàn 5', 0),
+('B06', N'Bàn 6', 0), ('B07', N'Bàn 7', 0), ('B08', N'Bàn 8', 0), ('B09', N'Bàn 9', 0), ('B10', N'Bàn 10', 0),
+('B11', N'Bàn 11', 0), ('B12', N'Bàn 12', 0);
 
 -- 5. Chèn dữ liệu bảng HoaDon (Cập nhật lên 20 hóa đơn)
 INSERT INTO HoaDon (maHoaDon, ngayTao, maKhachHang, maNhanVien, maBan, tongTien) VALUES

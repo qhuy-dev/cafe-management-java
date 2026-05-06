@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.ConnectDB;
-import enity.SanPham;
+import entity.SanPham;
 
 public class SanPham_DAO {
 	public SanPham TimTheoMaSP(String maSanPham) {

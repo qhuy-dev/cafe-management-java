@@ -1,4 +1,4 @@
-package enity;
+package entity;
 
 public class KhachHang {
 	private String maKhachHang; // Khóa chính (NVARCHAR 100)

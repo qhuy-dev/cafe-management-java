@@ -23,7 +23,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import dao.NhanVien_DAO;
-import enity.NhanVien;
+import entity.NhanVien;
 
 public class LoginForm extends JFrame implements ActionListener{
 	

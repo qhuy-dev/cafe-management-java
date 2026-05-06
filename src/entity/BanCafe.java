@@ -1,4 +1,4 @@
-package enity;
+package entity;
 
 public class BanCafe {
 	private String maBan;    // Mã bàn (Khóa chính)

@@ -1,13 +1,16 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import connectDB.ConnectDB;
-import enity.HoaDon;
+import entity.HoaDon;
 
 public class HoaDon_DAO {
 	public ArrayList<HoaDon> getAllHoaDon() {
@@ -128,5 +131,52 @@ public class HoaDon_DAO {
 			e.printStackTrace();
 		}
 		return doanhThu;
+	}
+	public List<Object[]> timKiemHoaDon(Date tuNgay, Date denNgay, String maNhanVien) {
+	    List<Object[]> dsHoaDon = new ArrayList<>();
+	    
+	    // Nối bảng HoaDon, NhanVien và KhachHang (dùng LEFT JOIN cho KhachHang phòng trường hợp khách lẻ không có tên)
+	    StringBuilder sql = new StringBuilder(
+	        "SELECT hd.maHoaDon, hd.ngayTao, nv.hoTen as tenNV, kh.hoTen as tenKH, hd.tongTien " +
+	        "FROM HoaDon hd " +
+	        "JOIN NhanVien nv ON hd.maNhanVien = nv.maNhanVien " +
+	        "LEFT JOIN KhachHang kh ON hd.maKhachHang = kh.maKhachHang WHERE 1=1 "
+	    );
+
+	    if (tuNgay != null) {
+	        sql.append(" AND CAST(hd.ngayTao AS DATE) >= ?");
+	    }
+	    if (denNgay != null) {
+	        sql.append(" AND CAST(hd.ngayTao AS DATE) <= ?");
+	    }
+	    if (maNhanVien != null && !maNhanVien.equals("ALL")) {
+	        sql.append(" AND hd.maNhanVien = ?");
+	    }
+	    
+	    sql.append(" ORDER BY hd.ngayTao DESC");
+
+	    try (Connection con = connectDB.ConnectDB.getConnection();
+	         PreparedStatement pst = con.prepareStatement(sql.toString())) {
+	        
+	        int paramIndex = 1;
+	        if (tuNgay != null) { pst.setDate(paramIndex++, tuNgay); }
+	        if (denNgay != null) { pst.setDate(paramIndex++, denNgay); }
+	        if (maNhanVien != null && !maNhanVien.equals("ALL")) { pst.setString(paramIndex++, maNhanVien); }
+	        
+	        ResultSet rs = pst.executeQuery();
+	        while (rs.next()) {
+	            Object[] row = {
+	                rs.getString("maHoaDon"),
+	                rs.getTimestamp("ngayTao"), 
+	                rs.getString("tenNV"),
+	                rs.getString("tenKH") == null ? "Khách lẻ" : rs.getString("tenKH"),
+	                rs.getDouble("tongTien")
+	            };
+	            dsHoaDon.add(row);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return dsHoaDon;
 	}
 }

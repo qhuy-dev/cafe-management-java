@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.SanPham_DAO;
-import enity.SanPham;
+import entity.SanPham;
 
 public class SanPham_BUS {
 	SanPham_DAO sanPham_DAO=new SanPham_DAO();

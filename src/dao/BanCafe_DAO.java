@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.ConnectDB;
-import enity.BanCafe;
-import enity.SanPham;
+import entity.BanCafe;
+import entity.SanPham;
 
 public class BanCafe_DAO {
 	public BanCafe   getBanCafe(String tenBan) {

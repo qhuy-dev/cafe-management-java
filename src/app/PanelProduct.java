@@ -32,7 +32,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import bus.SanPham_BUS;
-import enity.SanPham;
+import entity.SanPham;
 
 public class PanelProduct extends JFrame implements ActionListener {
 	/**

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.KhachHang_DAO;
-import enity.KhachHang;
+import entity.KhachHang;
 
 public class KhachHang_BUS {
 	KhachHang_DAO khachHang_DAO=new KhachHang_DAO();
