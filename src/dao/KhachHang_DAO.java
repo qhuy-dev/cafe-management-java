@@ -199,4 +199,49 @@ public class KhachHang_DAO {
 			}
 			return list;
 	}
+	public String getOrInsertKhachHang(String hoTen, String sdt) {
+        if (hoTen == null || hoTen.trim().isEmpty()) {
+            return null; // Nếu không nhập tên -> Khách vãng lai
+        }
+
+        String maKH = null;
+        
+        // 1. Kiểm tra khách hàng đã tồn tại chưa (Dựa vào Tên và SĐT)
+        String sqlCheck = "SELECT maKhachHang FROM KhachHang WHERE hoTen = ? AND soDienThoai = ?";
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pst = con.prepareStatement(sqlCheck)) {
+            pst.setString(1, hoTen);
+            pst.setString(2, sdt);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getString("maKhachHang"); // Nếu đã có, trả về mã cũ
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+
+        // 2. Nếu chưa có -> Phát sinh mã khách hàng mới (KH + 3 số)
+        String nextMa = "KH001";
+        String sqlGetMa = "SELECT TOP 1 maKhachHang FROM KhachHang ORDER BY LEN(maKhachHang) DESC, maKhachHang DESC";
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pst = con.prepareStatement(sqlGetMa);
+             ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                String lastMa = rs.getString("maKhachHang");
+                int so = Integer.parseInt(lastMa.substring(2));
+                nextMa = String.format("KH%03d", so + 1);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+
+        // 3. Thêm khách hàng mới vào CSDL
+        String sqlInsert = "INSERT INTO KhachHang (maKhachHang, hoTen, soDienThoai) VALUES (?, ?, ?)";
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pst = con.prepareStatement(sqlInsert)) {
+            pst.setString(1, nextMa);
+            pst.setString(2, hoTen);
+            pst.setString(3, sdt);
+            pst.executeUpdate(); // Lưu xuống DB
+            return nextMa; // Trả về mã mới tạo
+        } catch (Exception e) { e.printStackTrace(); }
+
+        return null;
+    }
 }

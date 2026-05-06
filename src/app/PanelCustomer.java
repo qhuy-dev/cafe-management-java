@@ -1,5 +1,7 @@
 package app;
 
+import bus.KhachHang_BUS;
+import entity.KhachHang;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -11,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -24,9 +25,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import bus.KhachHang_BUS;
-import entity.KhachHang;
 
 public class PanelCustomer extends JFrame implements ActionListener {
 	/**

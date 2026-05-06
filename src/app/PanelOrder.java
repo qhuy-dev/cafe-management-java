@@ -14,6 +14,7 @@ import dao.HoaDon_DAO;
 import entity.BanCafe;
 import entity.SanPham;
 import dao.BanCafe_DAO;
+import dao.KhachHang_DAO;
 
 public class PanelOrder implements ActionListener {
     private JPanel pnlCenter;
@@ -37,6 +38,7 @@ public class PanelOrder implements ActionListener {
     private double tongTien = 0;
     private Ban_DAO banDAO = new Ban_DAO();
     private BanCafe_DAO BanCafeDAO = new BanCafe_DAO();
+    private KhachHang_DAO khDao = new KhachHang_DAO();
 
     public JPanel getPanelOrder() {
         pnlCenter = new JPanel(new BorderLayout(10, 10));
@@ -196,33 +198,51 @@ public class PanelOrder implements ActionListener {
                     "Xác nhận", JOptionPane.YES_NO_OPTION);
                     
             if (confirm == JOptionPane.YES_OPTION) {
+                // --- HIỂN THỊ POPUP NHẬP THÔNG TIN KHÁCH HÀNG ---
+                JTextField txtTenKH = new JTextField();
+                JTextField txtSdtKH = new JTextField();
+                Object[] message = {
+                    "Tên Khách Hàng (Bỏ trống nếu khách không muốn):", txtTenKH,
+                    "Số Điện Thoại:", txtSdtKH
+                };
+
+                int option = JOptionPane.showConfirmDialog(null, message, "Nhập thông tin khách hàng", JOptionPane.OK_CANCEL_OPTION);
                 
-                // 1. Lấy mã nhân viên đang đăng nhập (Từ file Main UIQuanLyBanHang)
-                String maNhanVienHienTai = "NV001"; // Default backup
-                if (UIQuanLyBanHang.nhanVien != null) {
-                    maNhanVienHienTai = UIQuanLyBanHang.nhanVien.getMaNhanVien();
-                }
-                
-                // 2. Gọi DAO tạo mã hóa đơn mới
-                HoaDon_DAO hdDao = new HoaDon_DAO();
-                String maHoaDonMoi = hdDao.getNextMaHoaDon();
-                
-                // 3. Gọi hàm Thanh Toán Transaction
-                boolean thanhCong = hdDao.thanhToan(maHoaDonMoi, maNhanVienHienTai, banHienTai, tongTien, modelCart);
-                
-                if (thanhCong) {
-                    JOptionPane.showMessageDialog(null, "Thanh toán thành công! Mã hóa đơn: " + maHoaDonMoi);
+                // Nếu người dùng bấm OK (Xác nhận tạo bill)
+                if (option == JOptionPane.OK_OPTION) {
+                    String tenKH = txtTenKH.getText().trim();
+                    String sdtKH = txtSdtKH.getText().trim();
                     
-                    // Reset giao diện sau khi thanh toán
-                    modelCart.setRowCount(0);
-                    capNhatTongTien();
-                    banHienTai = "";
-                    lblBanDangChon.setText("Chưa chọn bàn");
+                    // 1. Gọi KhachHang_DAO xử lý logic khách mới/cũ
+                    String maKHCuaBill = khDao.getOrInsertKhachHang(tenKH, sdtKH); // Sẽ trả về null nếu tên rỗng
                     
-                    // Load lại danh sách bàn để cập nhật trạng thái (từ Đỏ -> Xanh lá)
-                    loadDataBan(); 
-                } else {
-                    JOptionPane.showMessageDialog(null, "Thanh toán thất bại! Vui lòng kiểm tra lại CSDL.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    // 2. Lấy mã nhân viên đang đăng nhập
+                    String maNhanVienHienTai = "NV001"; // Default backup
+                    if (UIQuanLyBanHang.nhanVien != null) {
+                        maNhanVienHienTai = UIQuanLyBanHang.nhanVien.getMaNhanVien();
+                    }
+                    
+                    // 3. Tạo Hóa Đơn Mới
+                    dao.HoaDon_DAO hdDao = new dao.HoaDon_DAO();
+                    String maHoaDonMoi = hdDao.getNextMaHoaDon();
+                    
+                    // Gọi hàm thanh toán và truyền thêm maKHCuaBill vào cuối cùng
+                    boolean thanhCong = hdDao.thanhToan(maHoaDonMoi, maNhanVienHienTai, banHienTai, tongTien, modelCart, maKHCuaBill);
+                    
+                    if (thanhCong) {
+                        JOptionPane.showMessageDialog(null, "Thanh toán thành công! Mã hóa đơn: " + maHoaDonMoi);
+                        
+                        // Reset giao diện sau khi thanh toán
+                        modelCart.setRowCount(0);
+                        capNhatTongTien();
+                        banHienTai = "";
+                        lblBanDangChon.setText("Chưa chọn bàn");
+                        
+                        // Load lại danh sách bàn
+                        loadDataBan(); 
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Thanh toán thất bại! Vui lòng kiểm tra lại CSDL.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         }

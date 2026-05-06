@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,7 +172,7 @@ public class HoaDon_DAO {
 	                rs.getString("maHoaDon"),
 	                rs.getTimestamp("ngayTao"), 
 	                rs.getString("tenNV"),
-	                rs.getString("tenKH") == null ? "Khách lẻ" : rs.getString("tenKH"),
+	                rs.getString("tenKH") == null ? "Khách lạ" : rs.getString("tenKH"),
 	                rs.getDouble("tongTien")
 	            };
 	            dsHoaDon.add(row);
@@ -204,68 +205,63 @@ public class HoaDon_DAO {
     }
 
     // Hàm 2: Xử lý lưu hóa đơn xuống Database bằng Transaction
-    public boolean thanhToan(String maHoaDon, String maNhanVien, String maBan, double tongTien, DefaultTableModel modelCart) {
-        Connection con = null;
-        try {
-            con = ConnectDB.getConnection();
-            // Tắt auto commit để bắt đầu Transaction
-            con.setAutoCommit(false); 
+	// Thêm tham số String maKhachHang vào cuối
+	public boolean thanhToan(String maHoaDon, String maNhanVien, String maBan, double tongTien, DefaultTableModel modelCart, String maKhachHang) {
+	    Connection con = null;
+	    try {
+	        con = ConnectDB.getConnection();
+	        con.setAutoCommit(false); 
 
-            // 1. Thêm Hóa Đơn
-            String sqlHD = "INSERT INTO HoaDon (maHoaDon, maNhanVien, maBan, tongTien, maKhachHang) VALUES (?, ?, ?, ?, NULL)";
-            try (PreparedStatement pstHD = con.prepareStatement(sqlHD)) {
-                pstHD.setString(1, maHoaDon);
-                pstHD.setString(2, maNhanVien);
-                pstHD.setString(3, maBan);
-                pstHD.setDouble(4, tongTien);
-                pstHD.executeUpdate();
-            }
+	        // 1. Thêm Hóa Đơn (Đã sửa lại câu SQL nhận 5 tham số dấu ?)
+	        String sqlHD = "INSERT INTO HoaDon (maHoaDon, maNhanVien, maBan, tongTien, maKhachHang) VALUES (?, ?, ?, ?, ?)";
+	        try (PreparedStatement pstHD = con.prepareStatement(sqlHD)) {
+	            pstHD.setString(1, maHoaDon);
+	            pstHD.setString(2, maNhanVien);
+	            pstHD.setString(3, maBan);
+	            pstHD.setDouble(4, tongTien);
+	            
+	            // Nếu có mã KH thì truyền vào, nếu không có (khách lẻ) thì set NULL
+	            if (maKhachHang != null && !maKhachHang.trim().isEmpty()) {
+	                pstHD.setString(5, maKhachHang);
+	            } else {
+	                pstHD.setNull(5, Types.NVARCHAR);
+	            }
+	            pstHD.executeUpdate();
+	        }
 
-            // 2. Thêm Chi Tiết Hóa Đơn
-            String sqlCT = "INSERT INTO ChiTietHoaDon (maHoaDon, maSanPham, soLuong, giaTien) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement pstCT = con.prepareStatement(sqlCT)) {
-                for (int i = 0; i < modelCart.getRowCount(); i++) {
-                    pstCT.setString(1, maHoaDon);
-                    pstCT.setString(2, modelCart.getValueAt(i, 0).toString()); 
-                    pstCT.setInt(3, Integer.parseInt(modelCart.getValueAt(i, 2).toString())); 
-                    pstCT.setDouble(4, Double.parseDouble(modelCart.getValueAt(i, 3).toString())); 
-                    pstCT.addBatch(); // Gom các lệnh insert lại
-                }
-                pstCT.executeBatch(); // Đẩy 1 lần xuống CSDL
-            }
+	        // 2. Thêm Chi Tiết Hóa Đơn (Giữ nguyên)
+	        String sqlCT = "INSERT INTO ChiTietHoaDon (maHoaDon, maSanPham, soLuong, giaTien) VALUES (?, ?, ?, ?)";
+	        try (PreparedStatement pstCT = con.prepareStatement(sqlCT)) {
+	            for (int i = 0; i < modelCart.getRowCount(); i++) {
+	                pstCT.setString(1, maHoaDon);
+	                pstCT.setString(2, modelCart.getValueAt(i, 0).toString()); 
+	                pstCT.setInt(3, Integer.parseInt(modelCart.getValueAt(i, 2).toString())); 
+	                pstCT.setDouble(4, Double.parseDouble(modelCart.getValueAt(i, 3).toString())); 
+	                pstCT.addBatch(); 
+	            }
+	            pstCT.executeBatch(); 
+	        }
 
-            // 3. Cập nhật trạng thái bàn về 0 (Bàn trống)
-            String sqlBan = "UPDATE TableCafe SET trangThai = 0 WHERE maBan = ?";
-            try (PreparedStatement pstBan = con.prepareStatement(sqlBan)) {
-                pstBan.setString(1, maBan);
-                pstBan.executeUpdate();
-            }
+	        // 3. Cập nhật trạng thái bàn về 0 (Giữ nguyên)
+	        String sqlBan = "UPDATE TableCafe SET trangThai = 0 WHERE maBan = ?";
+	        try (PreparedStatement pstBan = con.prepareStatement(sqlBan)) {
+	            pstBan.setString(1, maBan);
+	            pstBan.executeUpdate();
+	        }
 
-            // Nếu không có lỗi nào xảy ra ở 3 bước trên -> Lưu chính thức
-            con.commit(); 
-            return true;
-            
-        } catch (Exception e) {
-            // Có lỗi -> Hủy bỏ toàn bộ thao tác, Database không bị ghi rác
-            if (con != null) {
-                try { 
-                    con.rollback(); 
-                } catch(Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            e.printStackTrace();
-            return false;
-        } finally {
-            // Dọn dẹp và trả lại trạng thái mặc định cho Connection
-            if (con != null) {
-                try { 
-                    con.setAutoCommit(true); 
-                    con.close(); // Phải đóng kết nối bằng tay vì không dùng try-with-resources
-                } catch(Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-    }
+	        con.commit(); 
+	        return true;
+	        
+	    } catch (Exception e) {
+	        if (con != null) {
+	            try { con.rollback(); } catch(Exception ex) {}
+	        }
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+	        if (con != null) {
+	            try { con.setAutoCommit(true); con.close(); } catch(Exception ex) {}
+	        }
+	    }
+	}
 }
