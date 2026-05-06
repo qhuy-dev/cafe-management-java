@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import dao.NhanVien_DAO;
+import entity.NhanVien;
+
 public class LoginForm extends JFrame implements ActionListener{
 	
 	/**
@@ -39,6 +42,23 @@ public class LoginForm extends JFrame implements ActionListener{
 	Color mauChu;
 	Color mautxt ;
 	Dimension khoangCach = new Dimension(100, 0);
+	
+	public JTextField getTxtTaiKhoan() {
+		return txtTaiKhoan;
+	}
+
+	public void setTxtTaiKhoan(JTextField txtTaiKhoan) {
+		this.txtTaiKhoan = txtTaiKhoan;
+	}
+
+	public JTextField getTxtMatKhau() {
+		return txtMatKhau;
+	}
+
+	public void setTxtMatKhau(JTextField txtMatKhau) {
+		this.txtMatKhau = txtMatKhau;
+	}
+
 	public LoginForm() {
 
 	    ImageIcon anh = new ImageIcon("imgs/anhDangNhap.png");
@@ -52,8 +72,8 @@ public class LoginForm extends JFrame implements ActionListener{
 	    lblDangNhap.setForeground(mauChu);
 	    lblDangNhap.setFont(new Font("Tohoma", Font.BOLD, 36));
 	    
-	    txtTaiKhoan = new JTextField();
-	    txtMatKhau = new JPasswordField();
+	    txtTaiKhoan = new JTextField("admin");
+	    txtMatKhau = new JPasswordField("123");
 	    txtTaiKhoan.setOpaque(false);
 	    txtMatKhau.setOpaque(false);
 	    txtTaiKhoan.setBorder(BorderFactory.createLineBorder(mauChu));
@@ -127,7 +147,7 @@ public class LoginForm extends JFrame implements ActionListener{
 	    
 //	    add(background);
 //	    add(pnlDangNhap);
-	    setTitle("Login Account");
+	    setTitle("Login Account ^_^ ");
 	    setContentPane(phanLop);
 	    setSize(width, height);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -140,11 +160,10 @@ public class LoginForm extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o==btnDangNhap) {
-			String taiKhoan ="admin";
-			String matKhau = "123";
-			if(taiKhoan.equals(txtTaiKhoan.getText()) && matKhau.equals(txtMatKhau.getText())) {
+			NhanVien nv = new NhanVien_DAO().timTheoUser(txtTaiKhoan.getText(), txtMatKhau.getText());
+			if(nv != null) {
 				JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-				new UIQuanLyBanHang().setVisible(true);
+				new UIQuanLyBanHang(txtTaiKhoan.getText(),txtMatKhau.getText());
 				dispose();
 			}
 			else {

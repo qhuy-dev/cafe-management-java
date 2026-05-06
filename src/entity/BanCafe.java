@@ -1,0 +1,35 @@
+package entity;
+
+public class BanCafe {
+	private String maBan;    // Mã bàn (Khóa chính)
+    private String tenBan;   // Tên hoặc số bàn
+    private int trangThai;
+	public String getMaBan() {
+		return maBan;
+	}
+	public void setMaBan(String maBan) {
+		this.maBan = maBan;
+	}
+	public String getTenBan() {
+		return tenBan;
+	}
+	public void setTenBan(String tenBan) {
+		this.tenBan = tenBan;
+	}
+	public int getTrangThai() {
+		return trangThai;
+	}
+	public BanCafe(String maBan, String tenBan, int trangThai) {
+		super();
+		this.maBan = maBan;
+		this.tenBan = tenBan;
+		this.trangThai = trangThai;
+	}
+	public BanCafe(String maBan) {
+		super();
+		this.maBan = maBan;
+	}
+	public void setTrangThai(int trangThai) {
+		this.trangThai = trangThai;
+	}
+}
