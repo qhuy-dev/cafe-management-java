@@ -48,7 +48,7 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 	private DefaultTableModel tableModel;
 	private JTable table;
 	private JFrame frame;
-	private JButton btnthem, btnsua, btnxoa, btnlammoi, btntimkiem;
+	private JButton btnThem, btnSua, btnXoa, btnLamMoi, btnTimKiem;
 	private JButton btndangxuat;
 	private JFrame owner;
 
@@ -58,6 +58,7 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 	
 
 	public JPanel NhanVienPanel(NhanVien nv,JFrame a) {
+		this.owner = a;
 		pnlCenter = new JPanel();
 		pnlCenter.setPreferredSize(new Dimension(800, 250));
 		pnlCenter.setLayout(new BorderLayout());
@@ -150,15 +151,15 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 		b.add(b5 = Box.createHorizontalBox());
 		b.add(Box.createVerticalStrut(10));
 		b5.add(Box.createHorizontalGlue());
-		b5.add(btnthem    = taoNut("Thêm",    new Color(46, 139, 87)));
+		b5.add(btnThem    = taoNut("Thêm",    new Color(46, 139, 87)));
 		b5.add(Box.createHorizontalStrut(40));
-		b5.add(btnsua     = taoNut("Sửa",     new Color(30, 100, 200)));
+		b5.add(btnSua     = taoNut("Sửa",     new Color(30, 100, 200)));
 		b5.add(Box.createHorizontalStrut(40));
-		b5.add(btnxoa     = taoNut("Xóa",     new Color(200, 50, 50)));
+		b5.add(btnXoa     = taoNut("Xóa",     new Color(200, 50, 50)));
 		b5.add(Box.createHorizontalStrut(40));
-		b5.add(btnlammoi  = taoNut("Làm Mới", new Color(130, 100, 60)));
+		b5.add(btnLamMoi  = taoNut("Làm Mới", new Color(130, 100, 60)));
 		b5.add(Box.createHorizontalStrut(40));
-		b5.add(btntimkiem = taoNut("Tìm",     new Color(180, 120, 0)));
+		b5.add(btnTimKiem = taoNut("Tìm",     new Color(180, 120, 0)));
 		b5.add(Box.createHorizontalStrut(40));
 		b5.add(btndangxuat = taoNut("Đăng Xuất", new Color(120, 0, 0)));
 		b5.add(Box.createHorizontalGlue());
@@ -171,7 +172,18 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 
 		b.add(b6 = Box.createHorizontalBox());
 		String[] headers = "Mã NV;Họ Tên;Giới Tính;SĐT;Email;Vai Trò;Lương".split(";");
-		tableModel = new DefaultTableModel(headers, 0);
+		tableModel = new DefaultTableModel(headers, 0) {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		        return false; 
+		    }
+		};
+		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.setRowHeight(25);
@@ -187,19 +199,19 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 		loadTable(nhanVien_BUS.danhSachNhanVien()); 
 
 		if(nv.getRole().equals("Nhân viên")) {
-			btnthem.setEnabled(false);
-			btnsua.setEnabled(false);
-			btnxoa.setEnabled(false);
+			btnThem.setEnabled(false);
+			btnSua.setEnabled(false);
+			btnXoa.setEnabled(false);
 		}
 		else if(nv.getRole().equals("Quản lý")) {
-			btnthem.setEnabled(true);
-			btnsua.setEnabled(true);
-			btnxoa.setEnabled(true);
+			btnThem.setEnabled(true);
+			btnSua.setEnabled(true);
+			btnXoa.setEnabled(true);
 		}
 		else {
-			btnthem.setEnabled(false);
-			btnsua.setEnabled(false);
-			btnxoa.setEnabled(false);
+			btnThem.setEnabled(false);
+			btnSua.setEnabled(false);
+			btnXoa.setEnabled(false);
 		}
 
 		
@@ -210,7 +222,7 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 
-		if (o == btnthem) {
+		if (o == btnThem) {
 			NhanVien nv = layDuLieu();
 			if (nv == null) return;
 			try {
@@ -223,7 +235,7 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(owner, e1.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
 			}
 
-		} else if (o == btnsua) {
+		} else if (o == btnSua) {
 			if (txtMaNV.getText().isEmpty()) { JOptionPane.showMessageDialog(owner, "Chọn nhân viên cần sửa!"); return; }
 			NhanVien nv = layDuLieu();
 			if (nv == null) return;
@@ -237,7 +249,7 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(owner, e1.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
 			}
 
-		} else if (o == btnxoa) {
+		} else if (o == btnXoa) {
 			if (txtMaNV.getText().isEmpty()) { JOptionPane.showMessageDialog(owner, "Chọn nhân viên cần xóa!"); return; }
 			int cf = JOptionPane.showConfirmDialog(owner, "Xác nhận xóa nhân viên này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
 			if (cf == JOptionPane.YES_OPTION) {
@@ -252,11 +264,11 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 				}
 			}
 
-		} else if (o == btnlammoi) {
+		} else if (o == btnLamMoi) {
 			xoaForm(); 
 			loadTable(nhanVien_BUS.danhSachNhanVien());
 
-		} else if (o == btntimkiem) {
+		} else if (o == btnTimKiem) {
 			String ma  = txtMaNV.getText().trim();
 			String ten = txtHoTen.getText().trim();
 			loadTable(nhanVien_BUS.timKiemNhanVien(ma, ten));
@@ -425,9 +437,15 @@ public class PanelNhanVien extends JFrame implements ActionListener {
 		    JOptionPane.showMessageDialog(owner, "SĐT phải 10 số và bắt đầu bằng 0!");
 		    return null;
 		}
-		if (!email.matches("^[A-Za-z0-9+_.-]+@gmail+\\.com$")) {
+		if (!email.matches("^[A-Za-z0-9+_.-]+@gmail\\.com$")) {
 		    JOptionPane.showMessageDialog(owner, "Email không hợp lệ!");
 		    return null;
+		}
+		for(NhanVien nv : nhanVien_BUS.danhSachNhanVien()) {
+			if (nv.getUsername().equals(txtUsername.getText().trim()) ) {
+				JOptionPane.showMessageDialog(this, "Username đã tồn tại!");
+				return null;
+			}
 		}
 		return new NhanVien(ma, ten, user, pass, role, sdt, diaChi, email, luong, ngaySinh, gioiTinh);
 	}

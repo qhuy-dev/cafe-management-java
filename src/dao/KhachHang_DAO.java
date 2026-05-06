@@ -108,7 +108,7 @@ public class KhachHang_DAO {
 			return false;
 		}
 	}
-	public KhachHang TimKiemTheoMa(String maKhachHang) {
+	public KhachHang timKiemTheoMa(String maKhachHang) {
 		KhachHang a=null;
 		try {
 			Connection con=ConnectDB.getConnection();
@@ -204,7 +204,7 @@ public class KhachHang_DAO {
             return null; // Nếu không nhập tên -> Khách vãng lai
         }
 
-        String maKH = null;
+//        String maKH = null;
         
         // 1. Kiểm tra khách hàng đã tồn tại chưa (Dựa vào Tên và SĐT)
         String sqlCheck = "SELECT maKhachHang FROM KhachHang WHERE hoTen = ? AND soDienThoai = ?";

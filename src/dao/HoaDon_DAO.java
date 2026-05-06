@@ -25,7 +25,7 @@ public class HoaDon_DAO {
 			while (rs.next()) {
 				HoaDon hd = new HoaDon(
 						rs.getString("maHoaDon"),
-						new KhachHang_DAO().TimKiemTheoMa(rs.getString("maKhachHang")),
+						new KhachHang_DAO().timKiemTheoMa(rs.getString("maKhachHang")),
 						new NhanVien_DAO().timTheoMa(rs.getString("maNhanVien")),
 						new BanCafe_DAO().getBanCafe(rs.getString("maBan")),
 						rs.getDate("ngayTao").toLocalDate(),
@@ -51,7 +51,7 @@ public class HoaDon_DAO {
 			while (rs.next()) {
 				HoaDon hd = new HoaDon(
 						rs.getString("maHoaDon"),
-						new KhachHang_DAO().TimKiemTheoMa(rs.getString("maKhachHang")),
+						new KhachHang_DAO().timKiemTheoMa(rs.getString("maKhachHang")),
 						new NhanVien_DAO().timTheoMa(rs.getString("maNhanVien")),
 						new BanCafe_DAO().getBanCafe(rs.getString("maBan")),
 						rs.getDate("ngayTao").toLocalDate(),
@@ -77,7 +77,7 @@ public class HoaDon_DAO {
 			while (rs.next()) {
 				HoaDon hd = new HoaDon(
 						rs.getString("maHoaDon"),
-						new KhachHang_DAO().TimKiemTheoMa(rs.getString("maKhachHang")),
+						new KhachHang_DAO().timKiemTheoMa(rs.getString("maKhachHang")),
 						new NhanVien_DAO().timTheoMa(rs.getString("maNhanVien")),
 						new BanCafe_DAO().getBanCafe(rs.getString("maBan")),
 						rs.getDate("ngayTao").toLocalDate(),

@@ -17,7 +17,7 @@ public class KhachHang_BUS {
 		}
 		if(makh!=null &&!makh.isBlank()) {
 			List<KhachHang> list =new ArrayList<>();
-			KhachHang kh=khachHang_DAO.TimKiemTheoMa(makh);
+			KhachHang kh=khachHang_DAO.timKiemTheoMa(makh);
 			if(kh!=null) list.add(kh);
 					return list;
 		}
@@ -27,10 +27,10 @@ public class KhachHang_BUS {
 		return khachHang_DAO.timKiemTheoSDT(sdt);
 	}
 	public KhachHang timKiemTheoMa(String makh){
-		return khachHang_DAO.TimKiemTheoMa(makh);
+		return khachHang_DAO.timKiemTheoMa(makh);
 	}
 	public boolean themKhachHang(KhachHang kh) throws Exception{
-		if(khachHang_DAO.TimKiemTheoMa(kh.getMaKhachHang())!=null) {
+		if(khachHang_DAO.timKiemTheoMa(kh.getMaKhachHang())!=null) {
 			throw new Exception("Mã khách hàng \""+kh.getMaKhachHang()+"\" đã tồn tại");
 		}
 		if(!kh.getSoDienThoai().matches("(^03|05|07|08|09)\\d{8}$"))
@@ -40,7 +40,7 @@ public class KhachHang_BUS {
 		return khachHang_DAO.themKhachHang(kh);
 	}
 	public boolean chinhSuaKhachHang(KhachHang kh) throws Exception{
-		if(khachHang_DAO.TimKiemTheoMa(kh.getMaKhachHang())==null) {
+		if(khachHang_DAO.timKiemTheoMa(kh.getMaKhachHang())==null) {
 			throw new Exception("Mã khách hàng \""+kh.getMaKhachHang()+"\" không tồn tại");
 		}
 		if(!kh.getSoDienThoai().matches("(^03|05|07|08|09)\\d{8}$"))
@@ -50,7 +50,7 @@ public class KhachHang_BUS {
 		return khachHang_DAO.chinhSuaKhachHang(kh);
 	}
 	public boolean xoaKhachHang(String makh) throws Exception{
-		if(khachHang_DAO.TimKiemTheoMa(makh)==null)
+		if(khachHang_DAO.timKiemTheoMa(makh)==null)
 			throw new Exception("Mã khách hàng \""+makh+"\" không tồn tại");
 		if(khachHang_DAO.coHoaDon(makh)) {
 			throw new Exception("Khách hàng \""+makh+ "\"đang có hóa đơn, không thể xóa");
