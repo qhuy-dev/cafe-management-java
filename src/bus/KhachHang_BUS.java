@@ -52,6 +52,9 @@ public class KhachHang_BUS {
 	public boolean xoaKhachHang(String makh) throws Exception{
 		if(khachHang_DAO.TimKiemTheoMa(makh)==null)
 			throw new Exception("Mã khách hàng \""+makh+"\" không tồn tại");
+		if(khachHang_DAO.coHoaDon(makh)) {
+			throw new Exception("Khách hàng \""+makh+ "\"đang có hóa đơn, không thể xóa");
+		}
 		return khachHang_DAO.xoaKhachHang(makh);
 	}
 }

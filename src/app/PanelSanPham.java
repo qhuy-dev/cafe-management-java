@@ -34,7 +34,7 @@ import javax.swing.table.TableCellRenderer;
 import bus.SanPham_BUS;
 import entity.SanPham;
 
-public class PanelProduct extends JFrame implements ActionListener {
+public class PanelSanPham extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -128,15 +128,23 @@ public class PanelProduct extends JFrame implements ActionListener {
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.setRowHeight(30);
-		table.setPreferredSize(new Dimension(780, 500));
 		b4.add(scroll);
-
+		table.setDefaultEditor(Object.class, null);
+		b1.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+		b2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+		b3.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+		Dimension fieldHeight = new Dimension(Integer.MAX_VALUE, 25);
+		txtma.setMaximumSize(fieldHeight);
+		txtgia.setMaximumSize(fieldHeight);
+		txtten.setMaximumSize(fieldHeight);
 		pnlCenter.add(b);
 
 		addTableListener();
 		loadTable(sanPham_BUS.danhSachSanPham());
 
 		return pnlCenter;
+		
+		
 	}
 
 	@Override
@@ -340,7 +348,7 @@ public class PanelProduct extends JFrame implements ActionListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(850, 700);
 		f.setLocationRelativeTo(null);
-		f.setContentPane(new PanelProduct().SanPham());
+		f.setContentPane(new PanelSanPham().SanPham());
 		f.setVisible(true);
 	}
 }

@@ -276,12 +276,12 @@ public class UIQuanLyBanHang extends JFrame implements ActionListener,MouseListe
 		}
 		else if(o== btnSanPham) {
 			btnSanPham.setOpaque(true);
-			 updateVungChua(new PanelProduct().SanPham());
+			 updateVungChua(new PanelSanPham().SanPham());
 			lblTieuDe.setText(btnSanPham.getText().toUpperCase());
 		}
 		else if(o== btnKhachHang) {
 			btnKhachHang.setOpaque(true);
-			updateVungChua(new PanelCustomer().KhachHang());
+			updateVungChua(new PanelKhachHang().KhachHang());
 			lblTieuDe.setText(btnKhachHang.getText().toUpperCase());
 		}
 		else if(o== btnNhanVien) {

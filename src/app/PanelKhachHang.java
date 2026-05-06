@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class PanelCustomer extends JFrame implements ActionListener {
+public class PanelKhachHang extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -96,6 +96,13 @@ public class PanelCustomer extends JFrame implements ActionListener {
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.setRowHeight(25);
 		b4.add(scroll);
+		b1.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+		b2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+		b3.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
+		Dimension fieldHeight = new Dimension(Integer.MAX_VALUE, 25);
+		txtma.setMaximumSize(fieldHeight);
+		txtsdt.setMaximumSize(fieldHeight);
+		txtten.setMaximumSize(fieldHeight);
 
 		pnlCenter.add(b);
 		addTableListener();
@@ -252,7 +259,7 @@ public class PanelCustomer extends JFrame implements ActionListener {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(900, 600);
-		PanelCustomer panel = new PanelCustomer();
+		PanelKhachHang panel = new PanelKhachHang();
 		frame.add(panel.KhachHang());
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

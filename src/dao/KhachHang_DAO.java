@@ -244,4 +244,22 @@ public class KhachHang_DAO {
 
         return null;
     }
+	public boolean coHoaDon(String maKhachHang) {
+	    try (Connection con = ConnectDB.getConnection();
+	         PreparedStatement pst = con.prepareStatement(
+	             "SELECT COUNT(dh.maHoaDon) AS soDonHang " +
+	             "FROM KhachHang kh LEFT JOIN HoaDon dh " +
+	             "ON kh.maKhachHang = dh.maKhachHang " +
+	             "WHERE kh.maKhachHang = ? " +
+	             "GROUP BY kh.maKhachHang")) {
+	        pst.setString(1, maKhachHang);
+	        ResultSet rs = pst.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt("soDonHang") > 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
 }

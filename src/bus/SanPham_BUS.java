@@ -41,6 +41,8 @@ public class SanPham_BUS {
 	public boolean xoaSanPham(String masp) throws Exception{
 		if(sanPham_DAO.TimTheoMaSP(masp)==null)
 			throw new Exception("Mã sản phẩm \""+masp+"\" không tồn tại");
+		if(sanPham_DAO.coChiTietHoaDon(masp))
+			throw new Exception("Sản phẩm \""+ masp+"\" đang tồn tại trong hóa đơn, không thể xóa");
 		return sanPham_DAO.xoaSanPham(masp);
 	}
 	

@@ -120,6 +120,19 @@ public class SanPham_DAO {
 		}
 		return list;
 	}
+	public boolean coChiTietHoaDon(String masp) {
+	    try {
+	        Connection con = ConnectDB.getConnection();
+	        String sql = "SELECT * FROM ChiTietHoaDon WHERE maSanPham = ?";
+	        PreparedStatement stmt = con.prepareStatement(sql);
+	        stmt.setString(1, masp);
+	        ResultSet rs = stmt.executeQuery();
+	        return rs.next();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 	
 	
 }
