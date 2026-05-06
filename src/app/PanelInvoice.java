@@ -83,6 +83,17 @@ public class PanelInvoice implements ActionListener {
         };
         tblHoaDon = new JTable(modelHoaDon);
         styleTable(tblHoaDon);
+        tblHoaDon.getSelectionModel().addListSelectionListener(e -> {
+            // !e.getValueIsAdjusting() giúp sự kiện chỉ kích hoạt 1 lần khi người dùng đã click xong
+            if (!e.getValueIsAdjusting()) {
+                int row = tblHoaDon.getSelectedRow();
+                if (row >= 0) {
+                    // Lấy mã hóa đơn ở cột 0 của dòng được chọn
+                    String maHD = tblHoaDon.getValueAt(row, 0).toString();
+                    loadChiTietHoaDon(maHD); // Gọi hàm đổ dữ liệu xuống bảng dưới
+                }
+            }
+        });
         pnlMaster.add(new JScrollPane(tblHoaDon), BorderLayout.CENTER);
 
         JPanel pnlDetail = new JPanel(new BorderLayout());
@@ -128,6 +139,27 @@ public class PanelInvoice implements ActionListener {
         
         for (NhanVien nv : listNV) {
             cmbNhanVien.addItem(nv.getHoTen());
+        }
+    }
+    private void loadChiTietHoaDon(String maHoaDon) {
+        modelChiTiet.setRowCount(0); // Xóa dữ liệu cũ trên bảng chi tiết
+        dao.CTHoaDon_DAO ctDao = new dao.CTHoaDon_DAO();
+        List<Object[]> listCT = ctDao.getChiTietByMaHD(maHoaDon);
+        
+        for (Object[] row : listCT) {
+            String maSP = row[0].toString();
+            String tenSP = row[1].toString();
+            int soLuong = (int) row[2];
+            double donGia = (double) row[3];
+            double thanhTien = soLuong * donGia;
+            
+            modelChiTiet.addRow(new Object[]{
+                maSP, 
+                tenSP, 
+                soLuong, 
+                df.format(donGia), 
+                df.format(thanhTien)
+            });
         }
     }
 

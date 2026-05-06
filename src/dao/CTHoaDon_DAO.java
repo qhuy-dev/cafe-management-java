@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.CTHoaDon;
@@ -207,5 +208,32 @@ public class CTHoaDon_DAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public List<Object[]> getChiTietByMaHD(String maHoaDon) {
+	    List<Object[]> dsChiTiet = new ArrayList<>();
+	    String sql = "SELECT ct.maSanPham, sp.tenSanPham, ct.soLuong, ct.giaTien " +
+	                 "FROM ChiTietHoaDon ct " +
+	                 "JOIN SanPham sp ON ct.maSanPham = sp.maSanPham " +
+	                 "WHERE ct.maHoaDon = ?";
+	                 
+	    try (java.sql.Connection con = connectDB.ConnectDB.getConnection();
+	         java.sql.PreparedStatement pst = con.prepareStatement(sql)) {
+	         
+	        pst.setString(1, maHoaDon);
+	        java.sql.ResultSet rs = pst.executeQuery();
+	        
+	        while (rs.next()) {
+	            Object[] row = {
+	                rs.getString("maSanPham"),
+	                rs.getString("tenSanPham"),
+	                rs.getInt("soLuong"),
+	                rs.getDouble("giaTien")
+	            };
+	            dsChiTiet.add(row);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return dsChiTiet;
 	}
 }

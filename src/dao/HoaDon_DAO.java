@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.table.DefaultTableModel;
+
 import connectDB.ConnectDB;
 import entity.HoaDon;
 
@@ -179,4 +181,91 @@ public class HoaDon_DAO {
 	    }
 	    return dsHoaDon;
 	}
+	// Hàm 1: Phát sinh mã hóa đơn tự động (HD + 3 số)
+	public String getNextMaHoaDon() {
+        String nextMa = "HD001";
+        String sql = "SELECT TOP 1 maHoaDon FROM HoaDon ORDER BY LEN(maHoaDon) DESC, maHoaDon DESC";
+        
+        // Dùng try-with-resources cho lệnh SELECT là an toàn
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+             
+            if (rs.next()) {
+                String lastMa = rs.getString("maHoaDon"); 
+                int so = Integer.parseInt(lastMa.substring(2)); 
+                so++; 
+                nextMa = String.format("HD%03d", so); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return nextMa;
+    }
+
+    // Hàm 2: Xử lý lưu hóa đơn xuống Database bằng Transaction
+    public boolean thanhToan(String maHoaDon, String maNhanVien, String maBan, double tongTien, DefaultTableModel modelCart) {
+        Connection con = null;
+        try {
+            con = ConnectDB.getConnection();
+            // Tắt auto commit để bắt đầu Transaction
+            con.setAutoCommit(false); 
+
+            // 1. Thêm Hóa Đơn
+            String sqlHD = "INSERT INTO HoaDon (maHoaDon, maNhanVien, maBan, tongTien, maKhachHang) VALUES (?, ?, ?, ?, NULL)";
+            try (PreparedStatement pstHD = con.prepareStatement(sqlHD)) {
+                pstHD.setString(1, maHoaDon);
+                pstHD.setString(2, maNhanVien);
+                pstHD.setString(3, maBan);
+                pstHD.setDouble(4, tongTien);
+                pstHD.executeUpdate();
+            }
+
+            // 2. Thêm Chi Tiết Hóa Đơn
+            String sqlCT = "INSERT INTO ChiTietHoaDon (maHoaDon, maSanPham, soLuong, giaTien) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstCT = con.prepareStatement(sqlCT)) {
+                for (int i = 0; i < modelCart.getRowCount(); i++) {
+                    pstCT.setString(1, maHoaDon);
+                    pstCT.setString(2, modelCart.getValueAt(i, 0).toString()); 
+                    pstCT.setInt(3, Integer.parseInt(modelCart.getValueAt(i, 2).toString())); 
+                    pstCT.setDouble(4, Double.parseDouble(modelCart.getValueAt(i, 3).toString())); 
+                    pstCT.addBatch(); // Gom các lệnh insert lại
+                }
+                pstCT.executeBatch(); // Đẩy 1 lần xuống CSDL
+            }
+
+            // 3. Cập nhật trạng thái bàn về 0 (Bàn trống)
+            String sqlBan = "UPDATE TableCafe SET trangThai = 0 WHERE maBan = ?";
+            try (PreparedStatement pstBan = con.prepareStatement(sqlBan)) {
+                pstBan.setString(1, maBan);
+                pstBan.executeUpdate();
+            }
+
+            // Nếu không có lỗi nào xảy ra ở 3 bước trên -> Lưu chính thức
+            con.commit(); 
+            return true;
+            
+        } catch (Exception e) {
+            // Có lỗi -> Hủy bỏ toàn bộ thao tác, Database không bị ghi rác
+            if (con != null) {
+                try { 
+                    con.rollback(); 
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            // Dọn dẹp và trả lại trạng thái mặc định cho Connection
+            if (con != null) {
+                try { 
+                    con.setAutoCommit(true); 
+                    con.close(); // Phải đóng kết nối bằng tay vì không dùng try-with-resources
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }
